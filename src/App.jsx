@@ -1,18 +1,17 @@
 import { useState } from 'react'
-
+import Header from './components/Header/Header'
+import TodoList from './components/TodoList'
+import AddTodo from './components/AddTodo'
 
 function App() {
   const [count, setCount] = useState(0)
 
-  return (
+  return ( 
     <>
+    <Header />
       <section id="center">
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+        <TodoList />
+        <AddTodo />
       </section>
     </>
   )
