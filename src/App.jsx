@@ -18,9 +18,16 @@ function App() {
 
   const createTask =(newTask) =>{
     setTasks([...tasks, newTask])
-    localStorage.clear()
   }
-  
+  const deleteTask = (id) => {
+    setTasks(tasks.filter(p => p.id !== id));
+  } 
+
+  const updateTask = (id, newText) => {
+  setTasks(tasks.map(task => 
+    task.id === id ? { ...task, text: newText } : task
+  ));
+};
   const toggleComplete = (id) => {
     setTasks(tasks.map(task => 
       task.id === id ? { ...task, completed: !task.completed } : task
@@ -31,7 +38,7 @@ function App() {
     <>
     <Header />
       <section id="center">
-        <TodoList tasks={tasks} toggleComplete={toggleComplete}/>
+        <TodoList updateTask={updateTask} tasks={tasks} deleteTask={deleteTask}toggleComplete={toggleComplete}/>
         <AddTodo create={createTask}/> 
       </section>
     </>

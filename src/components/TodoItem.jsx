@@ -1,23 +1,62 @@
+import { useState } from 'react'
+import EditTodo from './EditTodo';
 import MyInput from "./MyInput/MyInput"
+import MyButton from "./MyButton/MyButton"
 
+function TodoItem({ task, updateTask, deleteTask, number, toggleComplete }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [taskText, setTaskText] = useState(task.text);
 
-function TodoItem({task, toggleComplete, number}){
-    return(
-    <div className="task">
-        <div className="task__content">
-            <div>{number}. {task.text}</div>
-            <label className="checkbox-label">
-            <MyInput
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => toggleComplete(task.id)}
-                className="checkbox"
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = (newText) => {
+    updateTask(task.id, newText);
+    setTaskText(newText);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  return (
+    <li className="task">
+      <div className="task__content">
+        {/* Левая часть: номер и текст */}
+        <div className="task__left">
+          <span className="task__number">{number}. </span>
+          {isEditing ? (
+            <EditTodo
+              initialText={taskText}
+              onSave={handleSave}
+              onCancel={handleCancel}
             />
-            Выполнено
-            </label>
+          ) : (
+            <span className="task__text">{taskText}</span>
+          )}
         </div>
-    </div>
-    )
+        {/* Правая часть: чекбокс и кнопки */}
+        <div className="task__right">
+          <div className="task__checkbox">
+            <MyInput
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => toggleComplete(task.id, task.text, !task.completed)}
+            />
+            <label>Выполнено</label>
+          </div>
+          {!isEditing && (
+            <>
+              <MyButton className="edit" onClick={handleEdit}>Редактировать</MyButton>
+              <MyButton className="delete" onClick={() => deleteTask(task.id)}>Удалить</MyButton>
+            </>
+          )}
+        </div>
+      </div>
+    </li>
+  );
 }
 
-export default TodoItem
+export default TodoItem;
