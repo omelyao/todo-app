@@ -1,14 +1,17 @@
 
 
-function TodoItem(){
+function TodoItem(props){
     return(
         
-        <li>
-            <p>№</p>
-            <input type="text" placeholder="Введите текст задачи" />
-            <p>Статус</p>
-            <p>Дата создания</p>
-        </li>
+    <div className="task">
+        <div className="task__content">
+            <div>{props.number}. {props.task.text}</div>
+            <div>
+                <div>Статус: </div>
+                <div>{props.task.completed ? 'Выполнено' : 'Не выполнено'}</div>
+            </div>
+        </div>
+    </div>
     )
 }
 

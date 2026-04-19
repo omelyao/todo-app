@@ -1,10 +1,14 @@
 import TodoItem from './TodoItem'
 
-function TodoList(){
+function TodoList({tasks, index}){
+
+    
     return(
-        <ul>
-            <TodoItem />
-        </ul>
+        <div>
+            {tasks.map((task,index)=>
+                <TodoItem number={index + 1}task = {task} key={task.id}/>
+            )}
+        </div>
     )
 }
 
