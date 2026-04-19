@@ -1,15 +1,20 @@
+import MyInput from "./MyInput/MyInput"
 
 
-function TodoItem(props){
+function TodoItem({task, toggleComplete, number}){
     return(
-        
     <div className="task">
         <div className="task__content">
-            <div>{props.number}. {props.task.text}</div>
-            <div>
-                <div>Статус: </div>
-                <div>{props.task.completed ? 'Выполнено' : 'Не выполнено'}</div>
-            </div>
+            <div>{number}. {task.text}</div>
+            <label className="checkbox-label">
+            <MyInput
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => toggleComplete(task.id)}
+                className="checkbox"
+            />
+            Выполнено
+            </label>
         </div>
     </div>
     )

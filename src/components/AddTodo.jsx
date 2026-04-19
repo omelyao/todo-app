@@ -1,4 +1,6 @@
 import React, { useState} from "react";
+import MyInput from "./MyInput/MyInput";
+import MyButton from "./MyButton/MyButton";
 const AddTodo = function({create}){
 
     const [task, setTask] = useState({text: ''})
@@ -11,11 +13,11 @@ const AddTodo = function({create}){
     }
     return(
         <form>
-            <input value={task.text}
+            <MyInput value={task.text}
             onChange ={e => setTask({...task, text: e.target.value})}
             type="text" 
             placeholder="Введите текст задачи" />
-        <button type="button" onClick={addNewTask}>Добавить задачу</button>
+        <MyButton type="button" onClick={addNewTask}>Добавить задачу</MyButton>
       </form>
     )
 }
