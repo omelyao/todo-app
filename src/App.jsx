@@ -1,8 +1,45 @@
 import { useState, useEffect, useMemo } from 'react'
 import Header from './components/Header/Header'
+import {ThemeProvider} from 'styled-components'
+import { GlobalStyles } from './main'; 
+import styled from 'styled-components'
 import TodoList from './components/TodoList'
 import AddTodo from './components/AddTodo'
 import SortAndFilterTodo from './components/SortAndFilterTodo'
+
+const StyledApp= styled.div`
+  min-height:100vh;
+  width: 100%
+  padding-top:10rem;
+  background-color: ${(props)=>props.theme.body};
+  color: ${(props)=>props.theme.color}
+`
+
+const darkTheme = {
+  body: "#1c1c1c",
+  color: "white",
+  buttonBackground: "#444",
+  buttonColor: "white",
+  inputBackground: "#333",
+  inputBorder: "#555",
+  placeholderColor: "#888",
+  taskBackground: "#2c2c2c",
+  taskText: "white",
+  // добавьте любые другие свойства, которые нужны
+};
+
+const lightTheme = {
+  body: "white",
+  color: "#1c1c1c",
+  buttonBackground: "#007bff",
+  buttonColor: "white",
+  inputBackground: "white",
+  inputBorder: "#ccc",
+  placeholderColor: "#888",
+  taskBackground: "#f9f9f9",
+  taskText: "#000",
+};
+
 
 function App() {
 
@@ -16,6 +53,12 @@ function App() {
     sortDate: 'newest', 
   });
   
+  const [theme, setTheme]=useState("light")
+  const isDarkTheme = theme === "dark"
+
+  const toggleTheme = () =>{
+    setTheme(isDarkTheme ? 'light':'dark')
+  }
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
@@ -60,12 +103,19 @@ function App() {
 
   return ( 
     <>
-    <Header />
-      <section id="center">
-        <SortAndFilterTodo filter={filter} setFilter={setFilter}/>
-        <TodoList updateTask={updateTask} tasks={sortedTasks} deleteTask={deleteTask}toggleComplete={toggleComplete}/>
-        <AddTodo create={createTask}/> 
-      </section>
+    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme} >
+      <GlobalStyles />
+      <StyledApp>
+      <Header toggleTheme={toggleTheme}
+      themeType={isDarkTheme ? 'dark' : 'light'}
+      />
+        <section id="center">
+          <SortAndFilterTodo filter={filter} setFilter={setFilter}/>
+          <TodoList updateTask={updateTask} tasks={sortedTasks} deleteTask={deleteTask}toggleComplete={toggleComplete}/>
+          <AddTodo create={createTask}/> 
+        </section>
+      </StyledApp>
+    </ThemeProvider>
     </>
   )
 }
