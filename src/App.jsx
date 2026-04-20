@@ -18,26 +18,11 @@ const StyledApp= styled.div`
 const darkTheme = {
   body: "#1c1c1c",
   color: "white",
-  buttonBackground: "#444",
-  buttonColor: "white",
-  inputBackground: "#333",
-  inputBorder: "#555",
-  placeholderColor: "#888",
-  taskBackground: "#2c2c2c",
-  taskText: "white",
-  // добавьте любые другие свойства, которые нужны
 };
 
 const lightTheme = {
   body: "white",
   color: "#1c1c1c",
-  buttonBackground: "#007bff",
-  buttonColor: "white",
-  inputBackground: "white",
-  inputBorder: "#ccc",
-  placeholderColor: "#888",
-  taskBackground: "#f9f9f9",
-  taskText: "#000",
 };
 
 
@@ -53,13 +38,18 @@ function App() {
     sortDate: 'newest', 
   });
   
-  const [theme, setTheme]=useState("light")
+  const [theme, setTheme] = useState(() => {
+    const storedTheme = localStorage.getItem('theme');
+    return storedTheme ? storedTheme : 'light'; // по умолчанию 'light'
+  });
   const isDarkTheme = theme === "dark"
 
   const toggleTheme = () =>{
     setTheme(isDarkTheme ? 'light':'dark')
   }
-
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }, [tasks])
