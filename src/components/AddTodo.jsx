@@ -24,7 +24,7 @@ const AddTodo = function({create}){
             type="text" 
             placeholder="Введите текст задачи" />
         <MyButton type="button" onClick={addNewTask}>Добавить задачу</MyButton>
-        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {error ? <div style={{ color: 'red' }}>{error}</div> : null}
       </form>
     )
 }
