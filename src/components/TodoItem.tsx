@@ -1,9 +1,16 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import EditTodo from './EditTodo';
-import MyInput from "./MyInput/MyInput"
-import MyButton from "./MyButton/MyButton"
+import MyInput from "./MyInput/MyInput";
+import MyButton from "./MyButton/MyButton";
+import { Todo, TodoItemProps } from '../types'; 
 
-function TodoItem({ task, updateTask, deleteTask, number, toggleComplete }) {
+function TodoItem({
+  task,
+  updateTask,
+  deleteTask,
+  number,
+  toggleComplete
+}: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [taskText, setTaskText] = useState(task.text);
 
@@ -11,7 +18,7 @@ function TodoItem({ task, updateTask, deleteTask, number, toggleComplete }) {
     setIsEditing(true);
   };
 
-  const handleSave = (newText) => {
+  const handleSave = (newText: string) => {
     updateTask(task.id, newText);
     setTaskText(newText);
     setIsEditing(false);
@@ -43,7 +50,9 @@ function TodoItem({ task, updateTask, deleteTask, number, toggleComplete }) {
             <MyInput
               type="checkbox"
               checked={task.completed}
-              onChange={() => toggleComplete(task.id, task.text, !task.completed)}
+              onChange={() =>
+                toggleComplete(task.id, task.text, !task.completed)
+              }
             />
             <label>Выполнено</label>
           </div>
