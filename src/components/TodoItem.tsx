@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import EditTodo from './EditTodo';
-import MyInput from "./MyInput/MyInput";
-import MyButton from "./MyButton/MyButton";
-import { Todo, TodoItemProps } from '../types'; 
+import { useState } from "react";
+import { EditTodo } from "./EditTodo";
+import { MyInput } from "./MyInput/MyInput";
+import { MyButton } from "./MyButton/MyButton";
+import { TodoItemProps } from "../types";
 
-function TodoItem({
+const TodoItem: React.FC<TodoItemProps> = ({
   task,
   updateTask,
   deleteTask,
   number,
-  toggleComplete
-}: TodoItemProps) {
+  toggleComplete,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [taskText, setTaskText] = useState(task.text);
 
@@ -58,14 +58,17 @@ function TodoItem({
           </div>
           {!isEditing && (
             <>
-              <MyButton className="edit" onClick={handleEdit}>Редактировать</MyButton>
-              <MyButton className="delete" onClick={() => deleteTask(task.id)}>Удалить</MyButton>
+              <MyButton className="edit" onClick={handleEdit}>
+                Редактировать
+              </MyButton>
+              <MyButton className="delete" onClick={() => deleteTask(task.id)}>
+                Удалить
+              </MyButton>
             </>
           )}
         </div>
       </div>
     </li>
   );
-}
-
-export default TodoItem;
+};
+export { TodoItem };

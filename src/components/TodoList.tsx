@@ -1,8 +1,13 @@
-import React from 'react';
-import TodoItem from './TodoItem';
-import { Todo, TodoListProps } from '../types'; 
+/*import React from "react";
+import { TodoItem } from "./TodoItem";
+import { TodoListProps } from "../types";
 
-function TodoList({ tasks, toggleComplete, deleteTask, updateTask }: TodoListProps) {
+function TodoList({
+  tasks,
+  toggleComplete,
+  deleteTask,
+  updateTask,
+}: TodoListProps) {
   console.log(tasks);
   return (
     <div>
@@ -20,4 +25,4 @@ function TodoList({ tasks, toggleComplete, deleteTask, updateTask }: TodoListPro
   );
 }
 
-export default TodoList;
+export { TodoList };*/

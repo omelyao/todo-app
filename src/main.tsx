@@ -1,14 +1,13 @@
-import { createRoot } from 'react-dom/client'
-import { ThemeProvider } from 'styled-components'
-import App from './App'
-
-// Импорт глобальных стилей
-import { createGlobalStyle } from 'styled-components';
+import { createRoot } from "react-dom/client";
+import { App } from "./App";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    width: 100%;
     font-family: Arial, sans-serif;
     background-color: ${(props) => props.theme.body};
     color: ${(props) => props.theme.color};
@@ -53,18 +52,23 @@ export const GlobalStyles = createGlobalStyle`
     align-items: center;
     margin-right: 15px;
   }
+  select{
+  margin-right: 1em;
+  }
+  hr{
+  margin: 1em 0}
 `;
 
 const theme = {
-  body: '#fff',
-  color: '#000',
+  body: "#fff",
+  color: "#000",
 };
 
-const root = createRoot(document.getElementById('root') as HTMLElement);
+const root = createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
   <ThemeProvider theme={theme}>
     <GlobalStyles />
     <App />
-  </ThemeProvider>
+  </ThemeProvider>,
 );

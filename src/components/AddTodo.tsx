@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import MyInput from "./MyInput/MyInput";
-import MyButton from "./MyButton/MyButton";
-import { Todo, AddTodoProps } from '../types';
+import { MyInput } from "./MyInput/MyInput";
+import { MyButton } from "./MyButton/MyButton";
+import { AddTodoProps } from "../types";
 
 const AddTodo: React.FC<AddTodoProps> = ({ create }) => {
-  const [task, setTask] = useState<{ text: string }>({ text: '' });
-  const [error, setError] = useState<string>('');
+  const [task, setTask] = useState<{ text: string }>({ text: "" });
+  const [error, setError] = useState<string>("");
 
   const addNewTask = () => {
-    if (task.text.trim() === '') {
-      setError('Поле не может быть пустым');
+    if (task.text.trim() === "") {
+      setError("Поле не может быть пустым");
       return;
     }
     const newTask = {
@@ -17,8 +17,8 @@ const AddTodo: React.FC<AddTodoProps> = ({ create }) => {
       id: Date.now(),
     };
     create(newTask);
-    setTask({ text: '' });
-    setError('');
+    setTask({ text: "" });
+    setError("");
   };
 
   return (
@@ -39,9 +39,9 @@ const AddTodo: React.FC<AddTodoProps> = ({ create }) => {
       <MyButton type="button" onClick={addNewTask}>
         Добавить задачу
       </MyButton>
-      {error ? <div style={{ color: 'red' }}>{error}</div> : null}
+      {error ? <div style={{ color: "red" }}>{error}</div> : null}
     </form>
   );
 };
 
-export default AddTodo;
+export { AddTodo };

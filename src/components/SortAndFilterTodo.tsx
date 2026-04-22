@@ -1,17 +1,23 @@
 import React from "react";
-import { Filter, SortAndFilterTodoProps } from "../types";
+import { SortAndFilterTodoProps } from "../types";
 
-const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({ filter, setFilter }) => {
+const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
+  filter,
+  setFilter,
+}) => {
   return (
     <div>
       {/* Выбор фильтрации по статусу */}
       <select
-        value={filter.status ?? 'all'}
+        value={filter.status ?? "all"}
         onChange={(e) => {
           const value = e.target.value;
-          setFilter(prev => ({
+          setFilter((prev) => ({
             ...prev,
-            status: value === 'all' ? undefined : (value as 'completed' | 'notCompleted')
+            status:
+              value === "all"
+                ? undefined
+                : (value as "completed" | "notCompleted"),
           }));
         }}
       >
@@ -24,20 +30,22 @@ const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({ filter, setFilter
       <select
         value={filter.sortDate}
         onChange={(e) => {
-          const value = e.target.value as 'newest' | 'oldest';
-          setFilter(prev => ({
+          const value = e.target.value as "newest" | "oldest";
+          setFilter((prev) => ({
             ...prev,
-            sortDate: value
+            sortDate: value,
           }));
         }}
       >
-        <option value="" disabled>Сортировка по дате</option>
+        <option value="" disabled>
+          Сортировка по дате
+        </option>
         <option value="newest">Новые сначала</option>
         <option value="oldest">Старые сначала</option>
       </select>
-      <hr style={{ margin: '15px 0' }} />
+      <hr />
     </div>
   );
 };
 
-export default SortAndFilterTodo;
+export { SortAndFilterTodo };

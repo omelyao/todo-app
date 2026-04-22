@@ -7,8 +7,8 @@ export interface Todo {
 }
 
 export interface Filter {
-  status?: 'completed' | 'notCompleted';
-  sortDate: 'newest' | 'oldest';
+  status?: "completed" | "notCompleted";
+  sortDate: "newest" | "oldest";
 }
 
 export interface TodoListProps {
@@ -36,4 +36,17 @@ export interface EditTodoProps {
 }
 export interface AddTodoProps {
   create: (task: { text: string }) => void;
+}
+export interface MyInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface MyButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface MyTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+export interface HeaderProps {
+  toggleTheme: () => void;
+  themeType: "light" | "dark";
+}
+declare module "styled-components" {
+  export interface DefaultTheme {
+    body: string;
+    color: string;
+  }
 }

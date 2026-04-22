@@ -1,6 +1,5 @@
-
 // Получить данные из localStorage по ключу с типизацией и значением по умолчанию
-export function getFromLocalStorage<T>(key: string, defaultValue: T): T {
+export function getFromLocalStorage<T>(key: string) {
   const stored = localStorage.getItem(key);
   if (stored) {
     try {
@@ -9,7 +8,6 @@ export function getFromLocalStorage<T>(key: string, defaultValue: T): T {
       console.error(`Error parsing localStorage key "${key}":`, error);
     }
   }
-  return defaultValue;
 }
 
 // Записать данные в localStorage по ключу

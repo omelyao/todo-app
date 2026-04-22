@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import MyButton from './MyButton/MyButton';
-import MyInput from './MyInput/MyInput';
-import { Todo, EditTodoProps } from '../types';
+import React, { useState } from "react";
+import { MyButton } from "./MyButton/MyButton";
+import { MyTextArea } from "./MyTextArea/MyTextArea";
+import { EditTodoProps } from "../types";
 
-const EditTodo: React.FC<EditTodoProps> = ({ initialText, onSave, onCancel }) => {
+const EditTodo: React.FC<EditTodoProps> = ({
+  initialText,
+  onSave,
+  onCancel,
+}) => {
   const [text, setText] = useState<string>(initialText);
 
   const handleSave = () => {
@@ -11,16 +15,17 @@ const EditTodo: React.FC<EditTodoProps> = ({ initialText, onSave, onCancel }) =>
   };
 
   return (
-    <div>
-      <MyInput
-        type="text"
+    <>
+      <MyTextArea
         value={text}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          setText(e.target.value)
+        }
       />
       <MyButton onClick={handleSave}>Сохранить</MyButton>
       <MyButton onClick={onCancel}>Отмена</MyButton>
-    </div>
+    </>
   );
 };
 
-export default EditTodo;
+export { EditTodo };
