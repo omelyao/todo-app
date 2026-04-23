@@ -1,8 +1,13 @@
-import { createRoot } from "react-dom/client";
-import { App } from "./App";
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
+import { App } from "./App";
+import { ThemeContext } from "./utils/themeContext"; // импортируем контекст
 
-export const GlobalStyles = createGlobalStyle`
+const rootElement = document.getElementById("root")!;
+const root = ReactDOM.createRoot(rootElement);
+
+const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
@@ -52,23 +57,54 @@ export const GlobalStyles = createGlobalStyle`
     align-items: center;
     margin-right: 15px;
   }
-  select{
-  margin-right: 1em;
+  select {
+    margin-right: 1em;
   }
-  hr{
-  margin: 1em 0}
+  hr {
+    margin: 1em 0;
+  }
 `;
 
-const theme = {
-  body: "#fff",
-  color: "#000",
+// Определение тем
+const lightTheme = {
+  body: "#ffffff",
+  color: "#000000",
 };
 
-const root = createRoot(document.getElementById("root") as HTMLElement);
+const darkTheme = {
+  body: "#121212",
+  color: "#ffffff",
+};
+
+const AppWrapper = () => {
+  // Читаем тему из localStorage или устанавливаем по умолчанию "light"
+  const [theme, setTheme] = React.useState<"light" | "dark">(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme === "dark" ? "dark" : "light"; // по умолчанию light
+  });
+
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const newTheme = prev === "light" ? "dark" : "light";
+      localStorage.setItem("theme", newTheme); // сохраняем в localStorage
+      return newTheme;
+    });
+  };
+
+  const themeStyles = theme === "dark" ? darkTheme : lightTheme;
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <ThemeProvider theme={themeStyles}>
+        <GlobalStyle />
+        <App />
+      </ThemeProvider>
+    </ThemeContext.Provider>
+  );
+};
 
 root.render(
-  <ThemeProvider theme={theme}>
-    <GlobalStyles />
-    <App />
-  </ThemeProvider>,
+  <React.StrictMode>
+    <AppWrapper />
+  </React.StrictMode>,
 );

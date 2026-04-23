@@ -1,7 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { GlobalStyles } from "./main";
-import { ThemeProvider, DefaultTheme } from "styled-components";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { DefaultTheme } from "styled-components";
 
 import { Header } from "./components/Header/Header";
 import { TodoItem } from "./components/TodoItem";
@@ -9,64 +7,48 @@ import { AddTodo } from "./components/AddTodo";
 import { SortAndFilterTodo } from "./components/SortAndFilterTodo";
 import { getFromLocalStorage, setToLocalStorage } from "./utils/localStorage";
 import { Todo, Filter } from "./types";
+import { useTheme } from "./utils/themeContext";
 
-const darkTheme: DefaultTheme = {
-  body: "#1c1c1c",
-  color: "white",
-};
-const lightTheme: DefaultTheme = {
-  body: "white",
-  color: "#1c1c1c",
-};
 const StyledApp = styled.div`
   min-height: 100vh;
-  width: 100%;
+  width: 800px;
   padding-top: 2rem;
   background-color: ${(props) => props.theme.body};
   color: ${(props) => props.theme.color};
 `;
 
 function App() {
-  // задачи
-  const [tasks, setTasks] = useState<Todo[]>(
-    () =>
-      getFromLocalStorage<Todo[]>("tasks") ?? [
+  const { toggleTheme, theme } = useTheme(); // получаем из контекста
+  const isDarkTheme = theme === "dark";
+
+  // Инициализация задач
+  const getInitialTasks = (): Todo[] => {
+    const storedTasks = getFromLocalStorage<Todo[]>("tasks");
+    return (
+      storedTasks ?? [
         {
           id: 1,
           text: "Создать список с задачами",
           completed: false,
           createdAt: Date.now(),
         },
-      ],
-  );
+      ]
+    );
+  };
 
-  // фильтр
+  // Инициализация темы
+  const getInitialTheme = (): "light" | "dark" => {
+    const storedTheme = getFromLocalStorage<"light" | "dark">("theme");
+    return storedTheme ?? "light";
+  };
+
+  const [tasks, setTasks] = useState<Todo[]>(getInitialTasks);
   const [filter, setFilter] = useState<Filter>({
     status: undefined,
     sortDate: "newest",
   });
 
-  // тема
-  const [theme, setTheme] = useState<"light" | "dark">(
-    getFromLocalStorage<"light" | "dark">("theme") ?? "light",
-  );
-
-  const isDarkTheme = theme === "dark";
-
-  const toggleTheme = () => {
-    setTheme(isDarkTheme ? "light" : "dark");
-  };
-
-  // эффекты для сохранения темы и задач
-  useEffect(() => {
-    setToLocalStorage("theme", theme);
-  }, [theme]);
-
-  useEffect(() => {
-    setToLocalStorage("tasks", tasks);
-  }, [tasks]);
-
-  // создание задачи
+  // Создать задачу
   const createTask = (task: { text: string }) => {
     const newTodo: Todo = {
       id: Date.now(),
@@ -74,32 +56,38 @@ function App() {
       completed: false,
       createdAt: Date.now(),
     };
-    setTasks([...tasks, newTodo]);
+    const newTasks = [...tasks, newTodo];
+    setTasks(newTasks);
+    setToLocalStorage("tasks", newTasks);
   };
 
-  // удаление задачи
+  // Удалить задачу
   const deleteTask = (id: number) => {
-    setTasks(tasks.filter((p) => p.id !== id));
+    const newTasks = tasks.filter((p) => p.id !== id);
+    setTasks(newTasks);
+    setToLocalStorage("tasks", newTasks);
   };
 
-  // обновление текста задачи
+  // Обновить текст задачи
   const updateTask = (id: number, newText: string) => {
-    setTasks(
-      tasks.map((task) => (task.id === id ? { ...task, text: newText } : task)),
+    const newTasks = tasks.map((task) =>
+      task.id === id ? { ...task, text: newText } : task,
     );
+    setTasks(newTasks);
+    setToLocalStorage("tasks", newTasks);
   };
 
-  // переключение завершенности
-  const toggleComplete = (id: number) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task,
-      ),
+  // Переключить завершенность
+  const toggleCompleteTask = (id: number) => {
+    const newTasks = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task,
     );
+    setTasks(newTasks);
+    setToLocalStorage("tasks", newTasks);
   };
 
-  // сортировка и фильтрация
-  const sortedAndFilteredTasks = useMemo<Todo[]>(() => {
+  // Отсортировать и отфильтровать задачи
+  const sortedAndFilteredTasks = (() => {
     let filtered = [...tasks];
 
     if (filter.status === "completed") {
@@ -115,32 +103,39 @@ function App() {
     }
 
     return filtered;
-  }, [filter.status, filter.sortDate, tasks]);
+  })();
+
+  const themeStyles: DefaultTheme = isDarkTheme
+    ? {
+        body: "#1c1c1c",
+        color: "white",
+      }
+    : {
+        body: "white",
+        color: "#1c1c1c",
+      };
 
   return (
-    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <GlobalStyles />
-      <StyledApp>
-        <Header
-          toggleTheme={toggleTheme}
-          themeType={isDarkTheme ? "dark" : "light"}
-        />
-        <section id="center">
-          <SortAndFilterTodo filter={filter} setFilter={setFilter} />
-          {sortedAndFilteredTasks.map((task, index) => (
-            <TodoItem
-              key={task.id}
-              number={index + 1}
-              task={task}
-              toggleComplete={toggleComplete}
-              deleteTask={deleteTask}
-              updateTask={updateTask}
-            />
-          ))}
-          <AddTodo create={createTask} />
-        </section>
-      </StyledApp>
-    </ThemeProvider>
+    <StyledApp>
+      <Header
+        toggleTheme={toggleTheme}
+        themeType={isDarkTheme ? "dark" : "light"}
+      />
+      <section id="center">
+        <SortAndFilterTodo filter={filter} setFilter={setFilter} />
+        {sortedAndFilteredTasks.map((task, index) => (
+          <TodoItem
+            key={task.id}
+            number={index + 1}
+            task={task}
+            toggleComplete={toggleCompleteTask}
+            deleteTask={deleteTask}
+            updateTask={updateTask}
+          />
+        ))}
+        <AddTodo create={createTask} />
+      </section>
+    </StyledApp>
   );
 }
 
