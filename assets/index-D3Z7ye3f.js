@@ -102,4 +102,8 @@ Error generating stack: `+e.message+`
   hr {
     margin: 1em 0;
   }
+  .task__text{
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 `,hr={body:`#ffffff`,color:`#000000`},gr={body:`#121212`,color:`#ffffff`};pr.render((0,F.jsx)(M.StrictMode,{children:(0,F.jsx)(()=>{let[e,t]=M.useState(()=>localStorage.getItem(`theme`)===`dark`?`dark`:`light`),n=()=>{t(e=>{let t=e===`light`?`dark`:`light`;return localStorage.setItem(`theme`,t),t})},r=e===`dark`?gr:hr;return(0,F.jsx)(cr.Provider,{value:{theme:e,toggleTheme:n},children:(0,F.jsxs)(Nn,{theme:r,children:[(0,F.jsx)(mr,{}),(0,F.jsx)(dr,{})]})})},{})}));
