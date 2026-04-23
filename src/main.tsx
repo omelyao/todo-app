@@ -63,6 +63,10 @@ const GlobalStyle = createGlobalStyle`
   hr {
     margin: 1em 0;
   }
+  .task__text{
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 `;
 
 // Определение тем

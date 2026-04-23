@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styled, { DefaultTheme } from "styled-components";
+import { useState } from "react";
+import styled from "styled-components";
 
 import { Header } from "./components/Header/Header";
 import { TodoItem } from "./components/TodoItem";
@@ -34,12 +34,6 @@ function App() {
         },
       ]
     );
-  };
-
-  // Инициализация темы
-  const getInitialTheme = (): "light" | "dark" => {
-    const storedTheme = getFromLocalStorage<"light" | "dark">("theme");
-    return storedTheme ?? "light";
   };
 
   const [tasks, setTasks] = useState<Todo[]>(getInitialTasks);
@@ -104,16 +98,6 @@ function App() {
 
     return filtered;
   })();
-
-  const themeStyles: DefaultTheme = isDarkTheme
-    ? {
-        body: "#1c1c1c",
-        color: "white",
-      }
-    : {
-        body: "white",
-        color: "#1c1c1c",
-      };
 
   return (
     <StyledApp>
