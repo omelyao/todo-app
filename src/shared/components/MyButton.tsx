@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { MyButtonProps } from "../../types";
+import styled from 'styled-components';
+import { MyButtonProps } from '../../features/todo/model/types';
 const StyledButton = styled.button`
   background-color: #0056b3;
   color: #ffffff;

@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
-import { App } from "./App";
-import { ThemeContext } from "./utils/themeContext"; // импортируем контекст
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { App } from './App';
+import { ThemeContext } from './theme/themeContext'; // импортируем контекст
 
-const rootElement = document.getElementById("root")!;
+const rootElement = document.getElementById('root')!;
 const root = ReactDOM.createRoot(rootElement);
 
 const GlobalStyle = createGlobalStyle`
@@ -14,8 +14,8 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100vh;
     width: 100%;
     font-family: Arial, sans-serif;
-    background-color: ${(props) => props.theme.body};
-    color: ${(props) => props.theme.color};
+    background-color: ${props => props.theme.body};
+    color: ${props => props.theme.color};
   }
   #root {
     width: 800px;
@@ -71,31 +71,31 @@ const GlobalStyle = createGlobalStyle`
 
 // Определение тем
 const lightTheme = {
-  body: "#ffffff",
-  color: "#000000",
+  body: '#ffffff',
+  color: '#000000',
 };
 
 const darkTheme = {
-  body: "#121212",
-  color: "#ffffff",
+  body: '#121212',
+  color: '#ffffff',
 };
 
 const AppWrapper = () => {
   // Читаем тему из localStorage или устанавливаем по умолчанию "light"
-  const [theme, setTheme] = React.useState<"light" | "dark">(() => {
-    const savedTheme = localStorage.getItem("theme");
-    return savedTheme === "dark" ? "dark" : "light"; // по умолчанию light
+  const [theme, setTheme] = React.useState<'light' | 'dark'>(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme === 'dark' ? 'dark' : 'light'; // по умолчанию light
   });
 
   const toggleTheme = () => {
-    setTheme((prev) => {
-      const newTheme = prev === "light" ? "dark" : "light";
-      localStorage.setItem("theme", newTheme); // сохраняем в localStorage
+    setTheme(prev => {
+      const newTheme = prev === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme); // сохраняем в localStorage
       return newTheme;
     });
   };
 
-  const themeStyles = theme === "dark" ? darkTheme : lightTheme;
+  const themeStyles = theme === 'dark' ? darkTheme : lightTheme;
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -110,5 +110,5 @@ const AppWrapper = () => {
 root.render(
   <React.StrictMode>
     <AppWrapper />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

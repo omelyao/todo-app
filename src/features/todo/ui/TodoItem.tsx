@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { EditTodo } from "./EditTodo";
-import { MyInput } from "./MyInput/MyInput";
-import { MyButton } from "./MyButton/MyButton";
-import { TodoItemProps } from "../types";
+import { useState } from 'react';
+import { EditTodo } from './EditTodo';
+import { MyInput } from '../../../shared/components/MyInput';
+import { MyButton } from '../../../shared/components/MyButton';
+import { TodoItemProps } from '../model/types';
 
 const TodoItem: React.FC<TodoItemProps> = ({
   task,

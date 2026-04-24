@@ -1,5 +1,5 @@
-import { MyInputProps } from "../../types";
-import styled from "styled-components";
+import { MyInputProps } from '../../features/todo/model/types';
+import styled from 'styled-components';
 
 const StyledInput = styled.input`
   padding: 5px 15px;
@@ -10,6 +10,6 @@ const StyledInput = styled.input`
   width: 50%;
 `;
 
-export const MyInput: React.FC<MyInputProps> = (props) => {
+export const MyInput: React.FC<MyInputProps> = props => {
   return <StyledInput {...props} />;
 };

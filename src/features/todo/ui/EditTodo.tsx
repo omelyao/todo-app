@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { MyButton } from "./MyButton/MyButton";
-import { MyTextArea } from "./MyTextArea/MyTextArea";
-import { EditTodoProps } from "../types";
+import React, { useState } from 'react';
+import { MyButton } from '../../../shared/components/MyButton';
+import { MyTextArea } from '../../../shared/components/MyTextArea';
+import { EditTodoProps } from '../model/types';
 
 const EditTodo: React.FC<EditTodoProps> = ({
   initialText,

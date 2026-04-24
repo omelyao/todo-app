@@ -1,5 +1,5 @@
-import React from "react";
-import { SortAndFilterTodoProps } from "../types";
+import React from 'react';
+import { SortAndFilterTodoProps } from '../model/types';
 
 const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
   filter,
@@ -9,15 +9,15 @@ const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
     <div>
       {/* Выбор фильтрации по статусу */}
       <select
-        value={filter.status ?? "all"}
-        onChange={(e) => {
+        value={filter.status ?? 'all'}
+        onChange={e => {
           const value = e.target.value;
-          setFilter((prev) => ({
+          setFilter(prev => ({
             ...prev,
             status:
-              value === "all"
+              value === 'all'
                 ? undefined
-                : (value as "completed" | "notCompleted"),
+                : (value as 'completed' | 'notCompleted'),
           }));
         }}
       >
@@ -29,9 +29,9 @@ const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
       {/* Выбор сортировки по дате */}
       <select
         value={filter.sortDate}
-        onChange={(e) => {
-          const value = e.target.value as "newest" | "oldest";
-          setFilter((prev) => ({
+        onChange={e => {
+          const value = e.target.value as 'newest' | 'oldest';
+          setFilter(prev => ({
             ...prev,
             sortDate: value,
           }));

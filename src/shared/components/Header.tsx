@@ -1,6 +1,6 @@
-import { MyButton } from "../MyButton/MyButton";
-import { HeaderProps } from "../../types";
-import styled from "styled-components";
+import { MyButton } from './MyButton';
+import { HeaderProps } from '../../features/todo/model/types';
+import styled from 'styled-components';
 
 const StyledHeader = styled.header`
   display: flex;
@@ -8,7 +8,7 @@ const StyledHeader = styled.header`
   justify-content: space-between;
 `;
 export const Header: React.FC<HeaderProps> = ({ toggleTheme, themeType }) => {
-  const buttonText = themeType === "dark" ? "Light" : "Dark";
+  const buttonText = themeType === 'dark' ? 'Light' : 'Dark';
   return (
     <StyledHeader>
       <h1>Todo App</h1>
