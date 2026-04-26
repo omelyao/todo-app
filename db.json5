@@ -1,0 +1,22 @@
+{
+  todos: [
+    {
+      id: 1,
+      text: "Создать список с задачами",
+      completed: false,
+      createdAt: "2024-04-27T12:00:00Z",
+    },
+    {
+      id: 2,
+      text: "Создать db json5",
+      completed: false,
+      createdAt: "2024-04-27T12:00:00Z",
+    },
+    {
+      id: 3,
+      text: "Досмотреть блядский видос",
+      completed: false,
+      createdAt: "2024-04-27T12:00:00Z",
+    },
+  ],
+}
