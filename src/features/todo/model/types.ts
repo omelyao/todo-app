@@ -40,6 +40,16 @@ export interface AddTodoProps {
 
 export interface MyInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 export interface MyButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface Option {
+  value: string | number;
+  name: string;
+}
+export interface MySelectProps {
+  options: Option[];
+  defaultValue: string;
+  value: string | number;
+  onChange: (value: string | number) => void;
+}
 export interface MyTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 export interface HeaderProps {
   toggleTheme: () => void;
@@ -50,4 +60,9 @@ declare module 'styled-components' {
     body: string;
     color: string;
   }
+}
+export interface PaginationProps {
+  totalPages: number;
+  page: number;
+  changePage: (page: number) => void;
 }

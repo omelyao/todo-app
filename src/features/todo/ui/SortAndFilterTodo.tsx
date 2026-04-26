@@ -43,7 +43,6 @@ const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
         <option value="newest">Новые сначала</option>
         <option value="oldest">Старые сначала</option>
       </select>
-      <hr />
     </div>
   );
 };
