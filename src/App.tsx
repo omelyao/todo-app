@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Header } from './shared/components/Header';
 import { TodoItem } from './features/todo/ui/TodoItem';
 import { AddTodo } from './features/todo/ui/AddTodo';
@@ -11,7 +11,7 @@ import { Filter } from './features/todo/model/types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchAllTasks,
-  fetchTasks, // экшен для получения полного списка задач
+  fetchTasks,
   setPage,
   setLimit,
   setFilter,
@@ -140,7 +140,6 @@ function App() {
 
   return (
     <StyledApp>
-      <div>Количество задач для отображения: {paginatedTasks.length}</div>
       <Header
         toggleTheme={toggleTheme}
         themeType={isDarkTheme ? 'dark' : 'light'}

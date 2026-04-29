@@ -21,7 +21,7 @@ export const todoApi = {
   add: (task: Omit<Todo, 'id' | 'createdAt'>): Promise<Todo> => {
     const body = {
       text: task.text,
-      completed: false // добавляем по умолчанию
+      completed: false
     };
     return fetch(URL, {
       method: 'POST',
@@ -34,7 +34,6 @@ export const todoApi = {
   },
   delete: (id: number): Promise<void> => {
     return fetch(`${URL}/${id.toString()}`, {
-      // добавьте toString()
       method: 'DELETE'
     }).then(() => {});
   },
@@ -53,7 +52,6 @@ export const todoApi = {
     data: { text?: string; completed?: boolean }
   ): Promise<Todo> => {
     return fetch(`${URL}/${id.toString()}`, {
-      // добавьте toString()
       method: 'PUT',
       headers: headers,
       body: JSON.stringify(data)

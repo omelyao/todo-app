@@ -1,12 +1,8 @@
-import React from 'react';
 import { getPagesArray } from '../../utils/pages';
 import { PaginationProps } from '../todo/model/types';
 
 function Pagination({ totalPages, page, changePage }: PaginationProps) {
-  const pages = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pages.push(i);
-  }
+  const pages = getPagesArray(totalPages);
 
   return (
     <div>
@@ -18,4 +14,5 @@ function Pagination({ totalPages, page, changePage }: PaginationProps) {
     </div>
   );
 }
+
 export { Pagination };

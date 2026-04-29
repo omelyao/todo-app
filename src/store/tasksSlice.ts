@@ -32,7 +32,7 @@ const initialState: TasksState = {
 
 // Загрузка всех задач
 export const fetchAllTasks = createAsyncThunk<
-  { data: Todo[]; total: number }, // возвращаемые данные
+  { data: Todo[]; total: number },
   void,
   { rejectValue: string }
 >('tasks/fetchAllTasks', async (_, { rejectWithValue }) => {
