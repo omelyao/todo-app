@@ -14,7 +14,11 @@ import {
   fetchTasks, // экшен для получения полного списка задач
   setPage,
   setLimit,
-  setFilter
+  setFilter,
+  addTask,
+  deleteTaskAsync,
+  updateTaskAsync,
+  toggleTaskAsync
 } from './store/tasksSlice';
 import { RootState } from './store/index';
 import { AppDispatch } from './store/index';
@@ -54,23 +58,39 @@ function App() {
   }, [currentPage, limit, dispatch]);
 
   // Создать задачу
-  const createTask = (task: { text: string }) => {
-    // тут ваша логика добавления задачи
+  const createTask = async (task: { text: string }) => {
+    try {
+      await dispatch(addTask({ text: task.text }));
+    } catch (error) {
+      console.error('Ошибка при добавлении задачи:', error);
+    }
   };
 
   // Удалить задачу
-  const deleteTaskHandler = (id: number) => {
-    // логика удаления
+  const deleteTaskHandler = async (id: number) => {
+    try {
+      await dispatch(deleteTaskAsync(id));
+    } catch (error) {
+      console.error('Ошибка при удалении задачи:', error);
+    }
   };
 
   // Обновить задачу
-  const updateTaskHandler = (id: number, newText: string) => {
-    // логика обновления
+  const updateTaskHandler = async (id: number, newText: string) => {
+    try {
+      await dispatch(updateTaskAsync({ id, text: newText }));
+    } catch (error) {
+      console.error('Ошибка при обновлении задачи:', error);
+    }
   };
 
   // Переключить завершенность
-  const toggleCompleteTask = (id: number) => {
-    // логика
+  const toggleCompleteTask = async (id: number) => {
+    try {
+      await dispatch(toggleTaskAsync(id));
+    } catch (error) {
+      console.error('Ошибка при переключении задачи:', error);
+    }
   };
 
   // Обработчик смены страницы
