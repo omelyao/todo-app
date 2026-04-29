@@ -9,7 +9,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
   updateTask,
   deleteTask,
   number,
-  toggleComplete,
+  toggleComplete
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [taskText, setTaskText] = useState(task.text);
@@ -50,9 +50,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             <MyInput
               type="checkbox"
               checked={task.completed}
-              onChange={() =>
-                toggleComplete(task.id, task.text, !task.completed)
-              }
+              onChange={() => toggleComplete(task.id)}
             />
             <label>Выполнено</label>
           </div>

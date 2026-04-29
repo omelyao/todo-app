@@ -1,15 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Header } from './shared/components/Header';
 import { TodoItem } from './features/todo/ui/TodoItem';
 import { AddTodo } from './features/todo/ui/AddTodo';
 import { SortAndFilterTodo } from './features/todo/ui/SortAndFilterTodo';
-import { Todo, Filter } from './features/todo/model/types';
 import { useTheme } from './theme/themeContext';
-import { todoApi } from './api/todoApi';
 import { MySelect } from './shared/components/MySelect';
 import { Pagination } from './features/pagination/Pagination';
-import { getPageCount } from './utils/pages';
+import { Filter } from './features/todo/model/types';
+
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchAllTasks,
+  fetchTasks, // экшен для получения полного списка задач
+  setPage,
+  setLimit,
+  setFilter
+} from './store/tasksSlice';
+import { RootState } from './store/index';
+import { AppDispatch } from './store/index';
+
 import styled from 'styled-components';
+
 const StyledApp = styled.div`
   min-height: 100vh;
   width: 800px;
@@ -19,160 +30,147 @@ const StyledApp = styled.div`
 `;
 
 function App() {
-  const { toggleTheme, theme } = useTheme(); // получаем из контекста
+  const { toggleTheme, theme } = useTheme();
   const isDarkTheme = theme === 'dark';
-  const [tasks, setTasks] = useState<Todo[]>([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(
-    getPageCount(tasks.length, limit)
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  // Весь список задач
+  const allTasks = useSelector((state: RootState) => state.tasks.list ?? []);
+  // Текущие задачи на странице
+  const tasksPage = useSelector((state: RootState) => state.tasks.list);
+  const { status, total, currentPage, limit, filter, totalPages } = useSelector(
+    (state: RootState) => state.tasks
   );
-  const changePage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+
+  // Получение полного списка задач при первой загрузке
   useEffect(() => {
-    todoApi
-      .getAll()
-      .then(fetchedTasks => {
-        setTasks(fetchedTasks);
-      })
-      .catch(error => {
-        console.error('Ошибка загрузки задач:', error);
-      });
-  }, []);
-  const [filter, setFilter] = useState<Filter>({
-    status: undefined,
-    sortDate: 'newest',
-  });
+    dispatch(fetchAllTasks()); // грузим все задачи
+  }, [dispatch]);
+
+  // После получения полного списка задач, делать запрос задач по текущей странице
+  useEffect(() => {
+    dispatch(fetchTasks({ page: currentPage, limit }));
+  }, [currentPage, limit, dispatch]);
 
   // Создать задачу
   const createTask = (task: { text: string }) => {
-    const newTodo: Todo = {
-      id: Date.now(),
-      text: task.text,
-      completed: false,
-      createdAt: Date.now(),
-    };
-    todoApi
-      .add(newTodo)
-      .then(savedTask => {
-        setTasks(prev => [...prev, savedTask]);
-      })
-      .catch(error => {
-        console.error('Ошибка при добавлении:', error);
-      });
+    // тут ваша логика добавления задачи
   };
 
   // Удалить задачу
-  const deleteTask = (id: number) => {
-    todoApi
-      .delete(id)
-      .then(() => {
-        setTasks(prev => prev.filter(task => task.id !== id));
-      })
-      .catch(error => {
-        console.error('Ошибка при удалении:', error);
-      });
+  const deleteTaskHandler = (id: number) => {
+    // логика удаления
   };
 
-  // Обновить текст задачи
-  const updateTask = (id: number, newText: string) => {
-    todoApi
-      .update(id, { text: newText })
-      .then(updatedTask => {
-        setTasks(prev => prev.map(t => (t.id === id ? updatedTask : t)));
-      })
-      .catch(error => {
-        console.error('Ошибка при обновлении задачи:', error);
-      });
+  // Обновить задачу
+  const updateTaskHandler = (id: number, newText: string) => {
+    // логика обновления
   };
 
   // Переключить завершенность
   const toggleCompleteTask = (id: number) => {
-    todoApi
-      .toggle(id)
-      .then(updatedTask => {
-        setTasks(prev =>
-          prev.map(task => (task.id === id ? updatedTask : task))
-        );
-      })
-      .catch(error => {
-        console.error('Ошибка при переключении статуса:', error);
-      });
+    // логика
   };
 
-  // Отсортировать и отфильтровать задачи
-  const sortedAndFilteredTasks = (() => {
-    let filtered = [...tasks];
+  // Обработчик смены страницы
+  const handlePageChange = (newPage: number) => {
+    dispatch(setPage(newPage));
+  };
 
-    if (filter.status === 'completed') {
-      filtered = filtered.filter(task => task.completed);
-    } else if (filter.status === 'notCompleted') {
-      filtered = filtered.filter(task => !task.completed);
-    }
+  // Обработчик изменения лимита
+  const handleLimitChange = (newLimit: number) => {
+    dispatch(setLimit(newLimit));
+    dispatch(setPage(1));
+  };
 
+  // Обработчик фильтрации
+  const handleFilterChange = (newFilter: Filter) => {
+    dispatch(setFilter(newFilter));
+    dispatch(setPage(1));
+  };
+
+  // Мемоизация сортировки и фильтрации по всему списку задач
+  const sortedAndFilteredTasks = useMemo(() => {
+    let arr = [...allTasks];
+
+    // сортировка
     if (filter.sortDate === 'newest') {
-      filtered.sort((a, b) => b.createdAt - a.createdAt);
+      arr.sort((a, b) => b.createdAt - a.createdAt);
     } else if (filter.sortDate === 'oldest') {
-      filtered.sort((a, b) => a.createdAt - b.createdAt);
+      arr.sort((a, b) => a.createdAt - b.createdAt);
     }
 
-    return filtered;
-  })();
-  useEffect(() => {
-    const total = getPageCount(sortedAndFilteredTasks.length, limit);
-    setTotalPages(total);
-    if (page > total) {
-      setPage(1);
+    // фильтрация
+    if (filter.status === 'completed') {
+      arr = arr.filter(task => task.completed);
+    } else if (filter.status === 'notCompleted') {
+      arr = arr.filter(task => !task.completed);
     }
-  }, [tasks, filter, limit, sortedAndFilteredTasks]);
-  const paginatedTasks = (() => {
-    if (limit === -1) {
-      return sortedAndFilteredTasks;
-    } else {
-      const startIndex = (page - 1) * limit;
-      const endIndex = startIndex + limit;
-      return sortedAndFilteredTasks.slice(startIndex, endIndex);
-    }
-  })();
+
+    return arr;
+  }, [allTasks, filter]);
+
+  // пагинация - показываем только текущие задачи
+  const paginatedTasks = useMemo(() => {
+    if (limit === -1) return sortedAndFilteredTasks;
+    const startIndex = (currentPage - 1) * limit;
+    return sortedAndFilteredTasks.slice(startIndex, startIndex + limit);
+  }, [sortedAndFilteredTasks, currentPage, limit]);
+
   return (
     <StyledApp>
+      <div>Количество задач для отображения: {paginatedTasks.length}</div>
       <Header
         toggleTheme={toggleTheme}
         themeType={isDarkTheme ? 'dark' : 'light'}
       />
+
       <section id="center">
-        <SortAndFilterTodo filter={filter} setFilter={setFilter} />
+        <SortAndFilterTodo filter={filter} setFilter={handleFilterChange} />
+
+        {/* Выбор лимита элементов на странице */}
         <MySelect
           defaultValue="Кол-во элементов на странице"
           value={limit}
           onChange={value => {
             const numValue = typeof value === 'string' ? Number(value) : value;
-            setLimit(numValue);
+            handleLimitChange(numValue);
           }}
           options={[
             { value: 5, name: '5' },
             { value: 10, name: '10' },
             { value: 15, name: '15' },
-            { value: -1, name: 'Показать все' },
+            { value: -1, name: 'Показать все' }
           ]}
-        ></MySelect>
+        />
+
         <hr />
-        {paginatedTasks.map((task, index) => (
-          <TodoItem
-            key={task.id}
-            number={(page - 1) * limit + index + 1}
-            task={task}
-            toggleComplete={toggleCompleteTask}
-            deleteTask={deleteTask}
-            updateTask={updateTask}
-          />
-        ))}
+
+        {/* Отображение задач */}
+        {status === 'loading' ? (
+          <p>Загрузка...</p>
+        ) : (
+          paginatedTasks.map((task, index) => (
+            <TodoItem
+              key={task.id}
+              number={(currentPage - 1) * limit + index + 1}
+              task={task}
+              toggleComplete={toggleCompleteTask}
+              deleteTask={deleteTaskHandler}
+              updateTask={updateTaskHandler}
+            />
+          ))
+        )}
+
+        {/* Добавление задачи */}
         <AddTodo create={createTask} />
+
+        {/* Пагинация */}
         <Pagination
-          page={page}
-          changePage={changePage}
           totalPages={totalPages}
+          page={currentPage}
+          changePage={handlePageChange}
         />
       </section>
     </StyledApp>

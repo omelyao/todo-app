@@ -7,7 +7,7 @@ export interface Todo {
 }
 
 export interface Filter {
-  status?: 'completed' | 'notCompleted';
+  status?: 'all' | 'completed' | 'notCompleted';
   sortDate: 'newest' | 'oldest';
 }
 
@@ -22,12 +22,12 @@ export interface TodoItemProps {
   task: Todo;
   updateTask: (id: number, newText: string) => void;
   deleteTask: (id: number) => void;
-  toggleComplete: (id: number, text: string, completed: boolean) => void;
+  toggleComplete: (id: number) => void; // изменить сигнатуру
   number: number;
 }
 export interface SortAndFilterTodoProps {
   filter: Filter;
-  setFilter: React.Dispatch<React.SetStateAction<Filter>>;
+  setFilter: (newFilter: Filter) => void; // явно типизируйте
 }
 export interface EditTodoProps {
   initialText: string;

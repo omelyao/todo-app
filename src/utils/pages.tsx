@@ -3,9 +3,9 @@ export const getPageCount = (totalCount: number, limit: number): number => {
 };
 
 export const getPagesArray = (totalPages: number): number[] => {
-  const result: number[] = [];
-  for (let i = 0; i < totalPages; i++) {
-    result.push(i + 1);
+  const pages = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push(i);
   }
-  return result;
+  return pages;
 };

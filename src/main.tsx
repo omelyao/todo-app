@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { App } from './App';
-import { ThemeContext } from './theme/themeContext'; // импортируем контекст
-
+import { ThemeContext } from './theme/themeContext';
+import { Provider } from 'react-redux';
+import { store } from './store/index';
 const rootElement = document.getElementById('root')!;
 const root = ReactDOM.createRoot(rootElement);
 
@@ -72,12 +73,12 @@ const GlobalStyle = createGlobalStyle`
 // Определение тем
 const lightTheme = {
   body: '#ffffff',
-  color: '#000000',
+  color: '#000000'
 };
 
 const darkTheme = {
   body: '#121212',
-  color: '#ffffff',
+  color: '#ffffff'
 };
 
 const AppWrapper = () => {
@@ -109,6 +110,8 @@ const AppWrapper = () => {
 
 root.render(
   <React.StrictMode>
-    <AppWrapper />
+    <Provider store={store}>
+      <AppWrapper />
+    </Provider>
   </React.StrictMode>
 );

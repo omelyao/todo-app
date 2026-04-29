@@ -2,28 +2,20 @@ import React from 'react';
 import { getPagesArray } from '../../utils/pages';
 import { PaginationProps } from '../todo/model/types';
 
-export const Pagination: React.FC<PaginationProps> = ({
-  totalPages,
-  page,
-  changePage,
-}) => {
-  const pagesArray = getPagesArray(totalPages);
+function Pagination({ totalPages, page, changePage }: PaginationProps) {
+  const pages = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push(i);
+  }
 
   return (
     <div>
-      {pagesArray.map(p => (
-        <span
-          key={p}
-          onClick={() => changePage(p)}
-          style={{
-            margin: '0 5px',
-            cursor: 'pointer',
-            fontWeight: p === page ? 'bold' : 'normal',
-          }}
-        >
+      {pages.map(p => (
+        <button key={p} disabled={p === page} onClick={() => changePage(p)}>
           {p}
-        </span>
+        </button>
       ))}
     </div>
   );
-};
+}
+export { Pagination };

@@ -3,7 +3,7 @@ import { SortAndFilterTodoProps } from '../model/types';
 
 const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
   filter,
-  setFilter,
+  setFilter
 }) => {
   return (
     <div>
@@ -12,13 +12,13 @@ const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
         value={filter.status ?? 'all'}
         onChange={e => {
           const value = e.target.value;
-          setFilter(prev => ({
-            ...prev,
+          setFilter({
+            ...filter,
             status:
               value === 'all'
                 ? undefined
-                : (value as 'completed' | 'notCompleted'),
-          }));
+                : (value as 'completed' | 'notCompleted')
+          });
         }}
       >
         <option value="all">Все задачи</option>
@@ -31,10 +31,10 @@ const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
         value={filter.sortDate}
         onChange={e => {
           const value = e.target.value as 'newest' | 'oldest';
-          setFilter(prev => ({
-            ...prev,
-            sortDate: value,
-          }));
+          setFilter({
+            ...filter,
+            sortDate: value
+          });
         }}
       >
         <option value="" disabled>
