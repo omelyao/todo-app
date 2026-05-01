@@ -18,46 +18,54 @@ export const todoApi = {
       total: result.total
     };
   },
-  add: (task: Omit<Todo, 'id' | 'createdAt'>): Promise<Todo> => {
+  add: async (task: Omit<Todo, 'id' | 'createdAt'>): Promise<Todo> => {
     const body = {
       text: task.text,
       completed: false
     };
-    return fetch(URL, {
+    const response = await fetch(URL, {
       method: 'POST',
       headers,
       body: JSON.stringify(body)
-    }).then(res => {
-      if (!res.ok) throw new Error('Ошибка при добавлении');
-      return res.json();
     });
+    if (!response.ok) {
+      throw new Error('Ошибка при добавлении');
+    }
+    const result = await response.json();
+    return result;
   },
-  delete: (id: number): Promise<void> => {
-    return fetch(`${URL}/${id.toString()}`, {
+  delete: async (id: number): Promise<void> => {
+    const response = await fetch(`${URL}/${id.toString()}`, {
       method: 'DELETE'
-    }).then(() => {});
+    });
+    if (!response.ok) {
+      throw new Error('Ошибка при удалении');
+    }
   },
-  toggle: (id: number): Promise<Todo> => {
-    const idStr = id.toString();
-    return fetch(`${URL}/${idStr}/toggle`, {
+  toggle: async (id: number): Promise<Todo> => {
+    const response = await fetch(`${URL}/${id.toString()}/toggle`, {
       method: 'PATCH',
       headers: headers
-    }).then(res => {
-      if (!res.ok) throw new Error('Ошибка при переключении');
-      return res.json();
     });
+    if (!response.ok) {
+      throw new Error('Ошибка при смене complteted');
+    }
+    const result = await response.json();
+    return result;
   },
-  update: (
+  update: async (
     id: number,
     data: { text?: string; completed?: boolean }
   ): Promise<Todo> => {
-    return fetch(`${URL}/${id.toString()}`, {
+    const response = await fetch(`${URL}/${id.toString()}`, {
       method: 'PUT',
       headers: headers,
       body: JSON.stringify(data)
-    }).then(res => {
-      if (!res.ok) throw new Error('Ошибка при обновлении');
-      return res.json();
     });
+    if (!response.ok) {
+      throw new Error('Ошибка при обновлении');
+    }
+    const result = await response.json();
+    return result;
   }
 };

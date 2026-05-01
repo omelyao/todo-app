@@ -24,8 +24,6 @@ async function getTasks() {
 // Обработка GET /tasks с пагинацией и фильтрацией
 app.get("/tasks", async (req, res) => {
   const { page = 1, limit = 10, filter = "all" } = req.query;
-  console.log("Received query params:", req.query);
-  console.log("Parsed page:", page, "Parsed limit:", limit);
   let data = await getTasks();
 
   // фильтрация

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { MyButtonProps } from '../../features/todo/model/types';
 const StyledButton = styled.button`
   background-color: #0056b3;
   color: #ffffff;
@@ -13,6 +12,8 @@ const StyledButton = styled.button`
     color: #0056b3;
   }
 `;
+
+interface MyButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 export const MyButton: React.FC<MyButtonProps> = ({ children, ...props }) => {
   return <StyledButton {...props}>{children}</StyledButton>;
 };

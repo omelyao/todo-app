@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { MyButton } from '../../../shared/components/MyButton';
 import { MyTextArea } from '../../../shared/components/MyTextArea';
-import { EditTodoProps } from '../model/types';
+
+interface EditTodoProps {
+  initialText: string;
+  onSave: (text: string) => void;
+  onCancel: () => void;
+}
 
 const EditTodo: React.FC<EditTodoProps> = ({
   initialText,
   onSave,
-  onCancel,
+  onCancel
 }) => {
   const [text, setText] = useState<string>(initialText);
 

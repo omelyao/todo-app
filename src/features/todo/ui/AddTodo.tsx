@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
 import { MyInput } from '../../../shared/components/MyInput';
 import { MyButton } from '../../../shared/components/MyButton';
-import { AddTodoProps } from '../model/types';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../store/index';
+import { addTaskAsync } from '../../../store/tasksSlice';
 
-const AddTodo: React.FC<AddTodoProps> = ({ create }) => {
-  const [task, setTask] = useState<{ text: string }>({ text: '' });
+const AddTodo: React.FC = () => {
+  const [task, setTask] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
+
+  const createTask = (task: { text: string }) => {
+    try {
+      dispatch(addTaskAsync({ text: task.text }));
+    } catch (error) {
+      console.error('Ошибка при добавлении задачи:', error);
+    }
+  };
 
   const addNewTask = () => {
-    if (task.text.trim() === '') {
+    if (task.trim() === '') {
       setError('Поле не может быть пустым');
       return;
     }
     const newTask = {
-      ...task,
-      id: Date.now(),
+      text: task,
+      id: Date.now()
     };
-    create(newTask);
-    setTask({ text: '' });
+    createTask(newTask);
+    setTask('');
     setError('');
   };
 
@@ -29,9 +40,9 @@ const AddTodo: React.FC<AddTodoProps> = ({ create }) => {
       }}
     >
       <MyInput
-        value={task.text}
+        value={task}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setTask({ ...task, text: e.target.value })
+          setTask(e.target.value)
         }
         type="text"
         placeholder="Введите текст задачи"

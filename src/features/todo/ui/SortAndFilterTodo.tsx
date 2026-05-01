@@ -1,5 +1,10 @@
 import React from 'react';
-import { SortAndFilterTodoProps } from '../model/types';
+import { Filter } from '../model/types';
+
+interface SortAndFilterTodoProps {
+  filter: Filter;
+  setFilter: (newFilter: Filter) => void;
+}
 
 const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
   filter,

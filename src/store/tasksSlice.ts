@@ -48,7 +48,7 @@ export const fetchAllTasks = createAsyncThunk<
 });
 
 // Добавление задачи
-export const addTask = createAsyncThunk<
+export const addTaskAsync = createAsyncThunk<
   Todo,
   { text: string; completed?: boolean }
 >('tasks/addTask', async ({ text, completed = false }, thunkAPI) => {
@@ -131,30 +131,6 @@ const tasksSlice = createSlice({
     setFilter(state, action: PayloadAction<Filter>) {
       state.filter = action.payload;
       state.currentPage = 1;
-    },
-    toggleTask(state, action: PayloadAction<number>) {
-      const task = state.list.find(t => t.id === action.payload);
-      if (task) {
-        task.completed = !task.completed;
-      }
-    },
-    deleteTask(state, action: PayloadAction<number>) {
-      state.list = state.list.filter(t => t.id !== action.payload);
-      state.total = state.list.length;
-      if (state.limit !== -1) {
-        state.totalPages = Math.ceil(state.total / state.limit);
-      } else {
-        state.totalPages = 1;
-      }
-      if (state.currentPage > state.totalPages) {
-        state.currentPage = state.totalPages;
-      }
-    },
-    updateTask(state, action: PayloadAction<{ id: number; text: string }>) {
-      const task = state.list.find(t => t.id === action.payload.id);
-      if (task) {
-        task.text = action.payload.text;
-      }
     }
   },
   extraReducers: builder => {
@@ -182,7 +158,7 @@ const tasksSlice = createSlice({
       })
 
       // Добавление задачи
-      .addCase(addTask.fulfilled, (state, action) => {
+      .addCase(addTaskAsync.fulfilled, (state, action) => {
         state.list.unshift(action.payload);
         state.total++;
         if (state.limit !== -1) {
@@ -224,13 +200,6 @@ const tasksSlice = createSlice({
   }
 });
 
-export const {
-  setPage,
-  setLimit,
-  setFilter,
-  toggleTask,
-  deleteTask,
-  updateTask
-} = tasksSlice.actions;
+export const { setPage, setLimit, setFilter } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { MyTextAreaProps } from '../../features/todo/model/types';
 const StyledTextArea = styled.textarea`
   padding: 5px 15px;
   border: 1px solid #007bff;
@@ -10,7 +9,7 @@ const StyledTextArea = styled.textarea`
   min-height: 100px;
   resize: vertical; /* разрешить изменение высоты */
 `;
-
+interface MyTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 export const MyTextArea: React.FC<MyTextAreaProps> = props => {
   return <StyledTextArea {...props} />;
 };

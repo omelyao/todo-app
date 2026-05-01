@@ -15,7 +15,7 @@ import {
   setPage,
   setLimit,
   setFilter,
-  addTask,
+  addTaskAsync,
   deleteTaskAsync,
   updateTaskAsync,
   toggleTaskAsync
@@ -56,38 +56,28 @@ function App() {
   useEffect(() => {
     dispatch(fetchTasks({ page: currentPage, limit }));
   }, [currentPage, limit, dispatch]);
-
-  // Создать задачу
-  const createTask = async (task: { text: string }) => {
-    try {
-      await dispatch(addTask({ text: task.text }));
-    } catch (error) {
-      console.error('Ошибка при добавлении задачи:', error);
-    }
-  };
-
   // Удалить задачу
-  const deleteTaskHandler = async (id: number) => {
+  const deleteTaskHandler = (id: number) => {
     try {
-      await dispatch(deleteTaskAsync(id));
+      dispatch(deleteTaskAsync(id));
     } catch (error) {
       console.error('Ошибка при удалении задачи:', error);
     }
   };
 
   // Обновить задачу
-  const updateTaskHandler = async (id: number, newText: string) => {
+  const updateTaskHandler = (id: number, newText: string) => {
     try {
-      await dispatch(updateTaskAsync({ id, text: newText }));
+      dispatch(updateTaskAsync({ id, text: newText }));
     } catch (error) {
       console.error('Ошибка при обновлении задачи:', error);
     }
   };
 
   // Переключить завершенность
-  const toggleCompleteTask = async (id: number) => {
+  const toggleCompleteTask = (id: number) => {
     try {
-      await dispatch(toggleTaskAsync(id));
+      dispatch(toggleTaskAsync(id));
     } catch (error) {
       console.error('Ошибка при переключении задачи:', error);
     }
@@ -183,7 +173,7 @@ function App() {
         )}
 
         {/* Добавление задачи */}
-        <AddTodo create={createTask} />
+        <AddTodo />
 
         {/* Пагинация */}
         <Pagination

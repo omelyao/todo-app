@@ -1,5 +1,10 @@
 import { getPagesArray } from '../../utils/pages';
-import { PaginationProps } from '../todo/model/types';
+
+interface PaginationProps {
+  totalPages: number;
+  page: number;
+  changePage: (page: number) => void;
+}
 
 function Pagination({ totalPages, page, changePage }: PaginationProps) {
   const pages = getPagesArray(totalPages);

@@ -1,4 +1,3 @@
-import { MyInputProps } from '../../features/todo/model/types';
 import styled from 'styled-components';
 
 const StyledInput = styled.input`
@@ -9,7 +8,7 @@ const StyledInput = styled.input`
   font-size: 16px;
   width: 50%;
 `;
-
+interface MyInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 export const MyInput: React.FC<MyInputProps> = props => {
   return <StyledInput {...props} />;
 };

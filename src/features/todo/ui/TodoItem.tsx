@@ -2,7 +2,15 @@ import { useState } from 'react';
 import { EditTodo } from './EditTodo';
 import { MyInput } from '../../../shared/components/MyInput';
 import { MyButton } from '../../../shared/components/MyButton';
-import { TodoItemProps } from '../model/types';
+import { Todo } from '../model/types';
+
+interface TodoItemProps {
+  task: Todo;
+  updateTask: (id: number, newText: string) => void;
+  deleteTask: (id: number) => void;
+  toggleComplete: (id: number) => void; // изменить сигнатуру
+  number: number;
+}
 
 const TodoItem: React.FC<TodoItemProps> = ({
   task,
