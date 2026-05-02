@@ -1,4 +1,4 @@
-import { Todo } from '../features/todo/model/types';
+import { Todo } from './types';
 
 const URL = 'http://localhost:3001/tasks';
 const headers = {

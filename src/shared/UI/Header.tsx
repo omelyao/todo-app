@@ -1,3 +1,4 @@
+import { useTheme } from '../../entities/helpers/themeContext';
 import { MyButton } from './MyButton';
 import styled from 'styled-components';
 
@@ -7,12 +8,10 @@ const StyledHeader = styled.header`
   justify-content: space-between;
 `;
 
-interface HeaderProps {
-  toggleTheme: () => void;
-  themeType: 'light' | 'dark';
-}
-export const Header: React.FC<HeaderProps> = ({ toggleTheme, themeType }) => {
-  const buttonText = themeType === 'dark' ? 'Light' : 'Dark';
+export const Header: React.FC = () => {
+  const { toggleTheme, theme } = useTheme();
+  const isDarkTheme = theme === 'dark';
+  const buttonText = theme === 'dark' ? 'Light' : 'Dark';
   return (
     <StyledHeader>
       <h1>Todo App</h1>

@@ -1,28 +1,19 @@
 import { useEffect, useMemo } from 'react';
-import { Header } from './shared/components/Header';
+import { Header } from './shared/UI/Header';
 import { TodoItem } from './features/todo/ui/TodoItem';
 import { AddTodo } from './features/todo/ui/AddTodo';
 import { SortAndFilterTodo } from './features/todo/ui/SortAndFilterTodo';
-import { useTheme } from './theme/themeContext';
-import { MySelect } from './shared/components/MySelect';
-import { Pagination } from './features/pagination/Pagination';
-import { Filter } from './features/todo/model/types';
-
+import { Pagination } from './features/todo/ui/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchAllTasks,
   fetchTasks,
-  setPage,
-  setLimit,
-  setFilter,
-  addTaskAsync,
   deleteTaskAsync,
   updateTaskAsync,
   toggleTaskAsync
-} from './store/tasksSlice';
-import { RootState } from './store/index';
-import { AppDispatch } from './store/index';
-
+} from './features/todo/model/tasksSlice';
+import { AppDispatch } from './features/todo/model/index';
+import { getAllTasks, getTasks } from './features/todo/model/selectors';
 import styled from 'styled-components';
 
 const StyledApp = styled.div`
@@ -34,19 +25,9 @@ const StyledApp = styled.div`
 `;
 
 function App() {
-  const { toggleTheme, theme } = useTheme();
-  const isDarkTheme = theme === 'dark';
-
   const dispatch = useDispatch<AppDispatch>();
-
-  // Весь список задач
-  const allTasks = useSelector((state: RootState) => state.tasks.list ?? []);
-  // Текущие задачи на странице
-  const tasksPage = useSelector((state: RootState) => state.tasks.list);
-  const { status, total, currentPage, limit, filter, totalPages } = useSelector(
-    (state: RootState) => state.tasks
-  );
-
+  const allTasks = useSelector(getAllTasks);
+  const { status, currentPage, limit, filter } = useSelector(getTasks);
   // Получение полного списка задач при первой загрузке
   useEffect(() => {
     dispatch(fetchAllTasks()); // грузим все задачи
@@ -82,24 +63,6 @@ function App() {
       console.error('Ошибка при переключении задачи:', error);
     }
   };
-
-  // Обработчик смены страницы
-  const handlePageChange = (newPage: number) => {
-    dispatch(setPage(newPage));
-  };
-
-  // Обработчик изменения лимита
-  const handleLimitChange = (newLimit: number) => {
-    dispatch(setLimit(newLimit));
-    dispatch(setPage(1));
-  };
-
-  // Обработчик фильтрации
-  const handleFilterChange = (newFilter: Filter) => {
-    dispatch(setFilter(newFilter));
-    dispatch(setPage(1));
-  };
-
   // Мемоизация сортировки и фильтрации по всему списку задач
   const sortedAndFilteredTasks = useMemo(() => {
     let arr = [...allTasks];
@@ -121,7 +84,15 @@ function App() {
     return arr;
   }, [allTasks, filter]);
 
-  // пагинация - показываем только текущие задачи
+  const totalFilteredTasksCount = useMemo(() => {
+    return sortedAndFilteredTasks.length;
+  }, [sortedAndFilteredTasks]);
+
+  const totalPages = useMemo(() => {
+    if (limit === -1) return 1;
+    return Math.ceil(totalFilteredTasksCount / limit);
+  }, [totalFilteredTasksCount, limit]);
+
   const paginatedTasks = useMemo(() => {
     if (limit === -1) return sortedAndFilteredTasks;
     const startIndex = (currentPage - 1) * limit;
@@ -130,33 +101,10 @@ function App() {
 
   return (
     <StyledApp>
-      <Header
-        toggleTheme={toggleTheme}
-        themeType={isDarkTheme ? 'dark' : 'light'}
-      />
-
+      <Header />
       <section id="center">
-        <SortAndFilterTodo filter={filter} setFilter={handleFilterChange} />
-
-        {/* Выбор лимита элементов на странице */}
-        <MySelect
-          defaultValue="Кол-во элементов на странице"
-          value={limit}
-          onChange={value => {
-            const numValue = typeof value === 'string' ? Number(value) : value;
-            handleLimitChange(numValue);
-          }}
-          options={[
-            { value: 5, name: '5' },
-            { value: 10, name: '10' },
-            { value: 15, name: '15' },
-            { value: -1, name: 'Показать все' }
-          ]}
-        />
-
+        <SortAndFilterTodo filter={filter} limit={limit} />
         <hr />
-
-        {/* Отображение задач */}
         {status === 'loading' ? (
           <p>Загрузка...</p>
         ) : (
@@ -171,16 +119,8 @@ function App() {
             />
           ))
         )}
-
-        {/* Добавление задачи */}
         <AddTodo />
-
-        {/* Пагинация */}
-        <Pagination
-          totalPages={totalPages}
-          page={currentPage}
-          changePage={handlePageChange}
-        />
+        <Pagination totalPages={totalPages} page={currentPage} />
       </section>
     </StyledApp>
   );

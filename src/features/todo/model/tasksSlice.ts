@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { todoApi } from '../api/todoApi';
-import { Todo, Filter } from '../features/todo/model/types';
+import { todoApi } from './todoApi';
+import { Todo, Filter } from './types';
 
 interface TasksState {
   list: Todo[]; // полный список задач

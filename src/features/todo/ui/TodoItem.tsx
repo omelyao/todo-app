@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { EditTodo } from './EditTodo';
-import { MyInput } from '../../../shared/components/MyInput';
-import { MyButton } from '../../../shared/components/MyButton';
+import { MyInput } from '../../../shared/UI/MyInput';
+import { MyButton } from '../../../shared/UI/MyButton';
 import { Todo } from '../model/types';
 
 interface TodoItemProps {

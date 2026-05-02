@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { MyButton } from '../../../shared/components/MyButton';
-import { MyTextArea } from '../../../shared/components/MyTextArea';
+import { MyButton } from '../../../shared/UI/MyButton';
+import { MyTextArea } from '../../../shared/UI/MyTextArea';
 
 interface EditTodoProps {
   initialText: string;

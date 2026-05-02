@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { MyInput } from '../../../shared/components/MyInput';
-import { MyButton } from '../../../shared/components/MyButton';
+import { MyInput } from '../../../shared/UI/MyInput';
+import { MyButton } from '../../../shared/UI/MyButton';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../../store/index';
-import { addTaskAsync } from '../../../store/tasksSlice';
+import { AppDispatch } from '../model/index';
+import { addTaskAsync } from '../model/tasksSlice';
 
 const AddTodo: React.FC = () => {
   const [task, setTask] = useState<string>('');
