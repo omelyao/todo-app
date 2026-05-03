@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setFilter, setLimit, setPage } from '../model/tasksSlice';
-import { Filter } from '../model/types';
+import { Filter, SortOrder } from '../model/types';
 import { PageLimitSelector } from './PageLimitSelector';
 
 interface SortAndFilterTodoProps {
@@ -28,7 +28,7 @@ const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
   };
 
   const handleSortDate = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value as 'newest' | 'oldest';
+    const value = e.target.value as SortOrder;
     dispatch(
       setFilter({
         ...filter,

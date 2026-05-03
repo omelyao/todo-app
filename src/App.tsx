@@ -39,29 +39,17 @@ function App() {
   }, [currentPage, limit, dispatch]);
   // Удалить задачу
   const deleteTaskHandler = (id: number) => {
-    try {
-      dispatch(deleteTaskAsync(id));
-    } catch (error) {
-      console.error('Ошибка при удалении задачи:', error);
-    }
+    dispatch(deleteTaskAsync(id));
   };
 
   // Обновить задачу
   const updateTaskHandler = (id: number, newText: string) => {
-    try {
-      dispatch(updateTaskAsync({ id, text: newText }));
-    } catch (error) {
-      console.error('Ошибка при обновлении задачи:', error);
-    }
+    dispatch(updateTaskAsync({ id, text: newText }));
   };
 
   // Переключить завершенность
   const toggleCompleteTask = (id: number) => {
-    try {
-      dispatch(toggleTaskAsync(id));
-    } catch (error) {
-      console.error('Ошибка при переключении задачи:', error);
-    }
+    dispatch(toggleTaskAsync(id));
   };
   // Мемоизация сортировки и фильтрации по всему списку задач
   const sortedAndFilteredTasks = useMemo(() => {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Option } from '../model/types';
 
 interface PageLimitSelectorProps {
   value: number;

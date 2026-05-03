@@ -152,10 +152,6 @@ const tasksSlice = createSlice({
           state.currentPage = state.totalPages;
         }
       })
-      .addCase(fetchAllTasks.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload || 'Ошибка загрузки задач';
-      })
 
       // Добавление задачи
       .addCase(addTaskAsync.fulfilled, (state, action) => {
