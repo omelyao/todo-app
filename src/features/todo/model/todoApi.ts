@@ -1,71 +1,63 @@
 import { Todo } from './types';
 
-const URL = 'http://localhost:3001/tasks';
-const headers = {
-  'Content-Type': 'application/json'
+const URL = 'http://localhost:3001/todos';
+
+// Общая функция для запросов с авторизацией
+const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
+  const token = localStorage.getItem('accessToken'); // получаем токен из localStorage
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...(token && { Authorization: `Bearer ${token}` })
+  };
+
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      ...headers,
+      ...(options.headers || {})
+    }
+  });
+
+  if (!response.ok) {
+    // можно дополнительно обработать ошибку, например, проверить статус 401
+    throw new Error(`Ошибка сети: ${response.status}`);
+  }
+  return response.json();
 };
 
+// API для задач
 export const todoApi = {
-  // Возвращает весь ответ, чтобы получить totalPages
-  getAll: async ({ page, limit }: { page: number; limit: number }) => {
-    const response = await fetch(`${URL}?page=${page}&limit=${limit}`);
-    if (!response.ok) {
-      throw new Error(`Ошибка сети: ${response.status}`);
-    }
-    const result = await response.json();
-    return {
-      data: result.data,
-      total: result.total
-    };
+  getAll: async (params: { page: number; limit: number }) => {
+    const { page, limit } = params;
+    const url = `${URL}?page=${page}&limit=${limit}`;
+    return await fetchWithAuth(url);
   },
-  add: async (task: Omit<Todo, 'id' | 'createdAt'>): Promise<Todo> => {
-    const body = {
-      text: task.text,
-      completed: false
-    };
-    const response = await fetch(URL, {
+
+  add: async (task: Omit<Todo, 'id' | 'createdAt'>) => {
+    return await fetchWithAuth(URL, {
       method: 'POST',
-      headers,
-      body: JSON.stringify(body)
+      body: JSON.stringify(task)
     });
-    if (!response.ok) {
-      throw new Error('Ошибка при добавлении');
-    }
-    const result = await response.json();
-    return result;
   },
-  delete: async (id: number): Promise<void> => {
-    const response = await fetch(`${URL}/${id.toString()}`, {
+
+  delete: async (id: number) => {
+    await fetchWithAuth(`${URL}/${id}`, {
       method: 'DELETE'
     });
-    if (!response.ok) {
-      throw new Error('Ошибка при удалении');
-    }
   },
-  toggle: async (id: number): Promise<Todo> => {
-    const response = await fetch(`${URL}/${id.toString()}/toggle`, {
-      method: 'PATCH',
-      headers: headers
+
+  toggle: async (id: number) => {
+    const response = await fetchWithAuth(`${URL}/${id}/toggle`, {
+      method: 'PATCH'
     });
-    if (!response.ok) {
-      throw new Error('Ошибка при смене complteted');
-    }
-    const result = await response.json();
-    return result;
+    return response;
   },
-  update: async (
-    id: number,
-    data: { text?: string; completed?: boolean }
-  ): Promise<Todo> => {
-    const response = await fetch(`${URL}/${id.toString()}`, {
+
+  update: async (id: number, data: { text?: string; completed?: boolean }) => {
+    const response = await fetchWithAuth(`${URL}/${id}`, {
       method: 'PUT',
-      headers: headers,
       body: JSON.stringify(data)
     });
-    if (!response.ok) {
-      throw new Error('Ошибка при обновлении');
-    }
-    const result = await response.json();
-    return result;
+    return response;
   }
 };

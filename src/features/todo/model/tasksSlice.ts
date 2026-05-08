@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { todoApi } from './todoApi';
 import { Todo, Filter } from './types';
-
+import { RootState } from './index';
 interface TasksState {
   list: Todo[]; // полный список задач
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -89,6 +89,7 @@ export const fetchTasks = createAsyncThunk<
   { page: number; limit: number },
   { rejectValue: string }
 >('tasks/fetchTasks', async ({ page, limit }, thunkAPI) => {
+  const state = thunkAPI.getState() as RootState;
   try {
     const response = await todoApi.getAll({ page, limit });
     return { data: response.data, total: response.total };
