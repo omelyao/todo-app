@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../features/todo/model/index';
 import { loginUser } from '../features/todo/model/authSlice';
-const Container = styled.div`
+import { Header } from '../shared/UI/Header';
+const LoginContainer = styled.div`
   max-width: 400px;
   margin: 100px auto;
   padding: 20px;
@@ -13,31 +15,31 @@ const Container = styled.div`
   color: black;
 `;
 
-const Title = styled.h2`
+const LoginTitle = styled.h2`
   text-align: center;
   margin-bottom: 20px;
 `;
 
-const Form = styled.form`
+const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
 `;
 
-const Label = styled.label`
+const LoginLabel = styled.label`
   margin-bottom: 8px;
   font-weight: 600;
 `;
 
-const Input = styled.input`
+const LoginInput = styled.input`
   padding: 8px 12px;
   margin-bottom: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
 `;
 
-const Button = styled.button`
+const LoginButton = styled.button`
   padding: 10px;
-  background-color: #007bff;
+  background-color: #034286;
   color: white;
   border: none;
   border-radius: 4px;
@@ -45,10 +47,15 @@ const Button = styled.button`
   font-size: 16px;
 
   &:hover {
-    background-color: #0069d9;
+    background-color: #0263ca;
   }
 `;
-
+const RegisterBlock = styled.div`
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 const ErrorMessage = styled.p`
   color: red;
   text-align: center;
@@ -74,24 +81,29 @@ const Login: React.FC = () => {
       setLoading(false);
     }
   };
-
+  const navigate = useNavigate();
+  const handleRegistration = () => {
+    navigate('/register');
+  };
   return (
-    <Container>
-      <Title>Войти в аккаунт</Title>
-      <Form onSubmit={handleSubmit}>
-        <Label htmlFor="email">Email</Label>
-        <Input
+    <LoginContainer>
+      <LoginTitle>Войти в аккаунт</LoginTitle>
+      <LoginForm onSubmit={handleSubmit}>
+        <LoginLabel>Email</LoginLabel>
+        <LoginInput
           id="email"
           type="email"
+          placeholder="Введите ваш email"
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
         />
 
-        <Label htmlFor="password">Пароль</Label>
-        <Input
+        <LoginLabel>Пароль</LoginLabel>
+        <LoginInput
           id="password"
           type="password"
+          placeholder="Введите ваш пароль"
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
@@ -99,11 +111,17 @@ const Login: React.FC = () => {
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        <Button type="submit" disabled={loading}>
-          {loading ? 'Загрузка...' : 'Войти'}
-        </Button>
-      </Form>
-    </Container>
+        <LoginButton type="submit" disabled={loading}>
+          {loading ? 'Загрузка...' : 'Войти в аккаунт'}
+        </LoginButton>
+        <RegisterBlock>
+          <LoginLabel>Нет акаунта?</LoginLabel>
+          <LoginButton type="button" onClick={handleRegistration}>
+            Зарегистрироваться
+          </LoginButton>
+        </RegisterBlock>
+      </LoginForm>
+    </LoginContainer>
   );
 };
 

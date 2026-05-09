@@ -20,7 +20,7 @@ export const Header: React.FC = () => {
     <StyledHeader>
       <h1>Todo App</h1>
       <div>
-        <MyButton onClick={handleProfileClick}>Profile</MyButton>
+        <MyButton onClick={handleProfileClick}>My Profile</MyButton>
         <MyButton onClick={toggleTheme}>{buttonText}</MyButton>
       </div>
     </StyledHeader>

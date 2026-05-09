@@ -1,30 +1,9 @@
 [
   {
-    "id": 1778250344592,
-    "email": "ryt9991@mail.ru",
-    "password": "$2b$10$Dez0FGDRd.bRn7VFCfD3AOI0869sIKROAcHXPFZvzQs/r81UusFty",
-    "age": null,
-    "createdAt": "2026-05-08T14:25:44.592Z"
-  },
-  {
     "id": 1778250403438,
     "email": "ryt9992@mail.ru",
-    "password": "$2b$10$EUijxpzyPcNVRUQjaguT6.W15qujf997.iogVI1LlfoWKEDzJicr6",
+    "password": "$2b$10$qYRWoemnZbtL0wMtuQG5yOZQDA62vKjukaJQg9S1r9NozlNyrFIDi",
     "age": 25,
     "createdAt": "2026-05-08T14:26:43.438Z"
-  },
-  {
-    "id": 1778251524563,
-    "email": "kotik@mail.ru",
-    "password": "$2b$10$wYIypGLJ8VHBOVtSSFM8T.WLepRbDm4LTNtNbw4SY/vcrm1imfmsa",
-    "age": 18,
-    "createdAt": "2026-05-08T14:45:24.563Z"
-  },
-  {
-    "id": 1778260123333,
-    "email": "ryt9993@mail.ru",
-    "password": "$2b$10$ASBVfsCvOG3R1liax..1O.vnDgMAQwp.pjpsUF.A9ol9gfzYUN9t6",
-    "age": 25,
-    "createdAt": "2026-05-08T17:08:43.333Z"
   }
 ]

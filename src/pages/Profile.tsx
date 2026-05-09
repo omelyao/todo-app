@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfile, logoutUser } from '../features/todo/model/authSlice'; // укажи правильный путь
 import { AppDispatch } from '../features/todo/model';
+import { useNavigate } from 'react-router-dom';
+import { ChangePassword } from '../features/todo/ui/ChangePassword';
 const Container = styled.div`
   max-width: 500px;
   margin: 50px auto;
@@ -54,12 +56,11 @@ const ErrorMessage = styled.p`
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-
+  const navigate = useNavigate();
   // Получение данных из Redux
   const user = useSelector((state: any) => state.auth.user);
   const status = useSelector((state: any) => state.auth.status);
   const error = useSelector((state: any) => state.auth.error);
-
   // Загружаем профиль при монтировании
   useEffect(() => {
     dispatch(fetchUserProfile());
@@ -67,9 +68,10 @@ const Profile: React.FC = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    // Можно добавить редирект или обновление состояния
   };
-
+  const handleToTasks = () => {
+    navigate('/');
+  };
   if (status === 'loading') {
     return <p style={{ textAlign: 'center' }}>Загрузка...</p>;
   }
@@ -82,11 +84,9 @@ const Profile: React.FC = () => {
       </Container>
     );
   }
-
   if (!user) {
-    return null; // Или показывать сообщение
+    return null;
   }
-
   return (
     <Container>
       <Title>Профиль пользователя</Title>
@@ -102,7 +102,9 @@ const Profile: React.FC = () => {
         <Label>Дата регистрации:</Label>
         <Value>{new Date(user.createdAt).toLocaleString()}</Value>
       </InfoItem>
-      <Button onClick={handleLogout}>Выйти</Button>
+      <ChangePassword />
+      <Button onClick={handleLogout}>Выйти из аккаунта</Button>
+      <Button onClick={handleToTasks}>К моим задачам</Button>
     </Container>
   );
 };

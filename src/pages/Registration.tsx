@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../features/todo/model/authSlice';
 import { AppDispatch } from '../features/todo/model';
-const Container = styled.div`
+const RegisterContainer = styled.div`
   max-width: 400px;
-  margin: 0 auto;
+  margin: 100px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -13,32 +13,32 @@ const Container = styled.div`
   color: black;
 `;
 
-const Title = styled.h2`
+const RegisterTitle = styled.h2`
   text-align: center;
   margin-bottom: 20px;
 `;
 
-const FieldWrapper = styled.div`
+const RegisterDiv = styled.div`
   margin-bottom: 10px;
 `;
 
-const Label = styled.label`
+const RegisterLabel = styled.label`
   display: block;
   margin-bottom: 6px;
   font-weight: 600;
 `;
 
-const Input = styled.input`
+const RegisterInput = styled.input`
   width: 95%;
   padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
 `;
 
-const Button = styled.button<{ disabled?: boolean }>`
+const RegisterButton = styled.button<{ disabled?: boolean }>`
   width: 100%;
   padding: 10px;
-  background-color: ${props => (props.disabled ? '#ccc' : '#007bff')};
+  background-color: ${props => (props.disabled ? '#ccc' : '#034286')};
   color: white;
   border: none;
   border-radius: 4px;
@@ -46,7 +46,7 @@ const Button = styled.button<{ disabled?: boolean }>`
   font-size: 16px;
 
   &:hover {
-    background-color: ${props => (props.disabled ? '#ccc' : '#0069d9')};
+    background-color: ${props => (props.disabled ? '#ccc' : '#0263ca')};
   }
 `;
 
@@ -78,39 +78,42 @@ export const Registration: React.FC = () => {
   };
 
   return (
-    <Container>
-      <Title>Register</Title>
-      <FieldWrapper>
-        <Label>Email:</Label>
-        <Input
+    <RegisterContainer>
+      <RegisterTitle>Register</RegisterTitle>
+      <RegisterDiv>
+        <RegisterLabel>Email:</RegisterLabel>
+        <RegisterInput
           type="email"
           value={email}
+          placeholder="Введите ваш email"
           onChange={e => setEmail(e.target.value)}
         />
-      </FieldWrapper>
-      <FieldWrapper>
-        <Label>Password:</Label>
-        <Input
+      </RegisterDiv>
+      <RegisterDiv>
+        <RegisterLabel>Пароль</RegisterLabel>
+        <RegisterInput
           type="password"
           value={password}
+          placeholder="Введите ваш пароль"
           onChange={e => setPassword(e.target.value)}
         />
-      </FieldWrapper>
-      <FieldWrapper>
-        <Label>Age (optional):</Label>
-        <Input
+      </RegisterDiv>
+      <RegisterDiv>
+        <RegisterLabel>Возвраст</RegisterLabel>
+        <RegisterInput
           type="number"
           value={age}
+          placeholder="Введите ваш возраст (не обязательное поле)"
           onChange={e => setAge(e.target.value)}
         />
-      </FieldWrapper>
-      <Button onClick={handleRegister} disabled={status === 'loading'}>
+      </RegisterDiv>
+      <RegisterButton onClick={handleRegister} disabled={status === 'loading'}>
         {status === 'loading' ? 'Регистрация...' : 'Зарегистрироваться'}
-      </Button>
+      </RegisterButton>
       {error && <Message>{error}</Message>}
       {status === 'idle' && !error && successMsg && (
         <Message success>{successMsg}</Message>
       )}
-    </Container>
+    </RegisterContainer>
   );
 };

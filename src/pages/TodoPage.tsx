@@ -57,9 +57,15 @@ function TodoPage() {
 
     // сортировка
     if (filter.sortDate === 'newest') {
-      arr.sort((a, b) => b.createdAt - a.createdAt);
+      arr.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
     } else if (filter.sortDate === 'oldest') {
-      arr.sort((a, b) => a.createdAt - b.createdAt);
+      arr.sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
     }
 
     // фильтрация
