@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { changePasswordThunk } from '../model/authSlice';
-import { AppDispatch } from '../model';
+import { changePasswordThunk } from '../../auth/model/authSlice';
+import { AppDispatch } from '../../../store';
 
 const ErrorMessage = styled.p`
   color: red;

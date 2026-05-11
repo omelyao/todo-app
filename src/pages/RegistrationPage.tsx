@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../features/todo/model/authSlice';
-import { AppDispatch } from '../features/todo/model';
+import { registerUser } from '../features/auth/model/authSlice';
+import { AppDispatch } from '../store/index';
 const RegisterContainer = styled.div`
   max-width: 400px;
   margin: 100px auto;
@@ -56,7 +56,7 @@ const Message = styled.p<{ success?: boolean }>`
   text-align: center;
 `;
 
-export const Registration: React.FC = () => {
+const RegistrationPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [email, setEmail] = useState('');
@@ -117,3 +117,4 @@ export const Registration: React.FC = () => {
     </RegisterContainer>
   );
 };
+export { RegistrationPage };

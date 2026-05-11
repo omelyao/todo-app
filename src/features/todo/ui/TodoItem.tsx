@@ -3,25 +3,35 @@ import { EditTodo } from './EditTodo';
 import { MyInput } from '../../../shared/UI/MyInput';
 import { MyButton } from '../../../shared/UI/MyButton';
 import { Todo } from '../model/types';
-
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../store/index';
+import {
+  deleteTaskAsync,
+  updateTaskAsync,
+  toggleTaskAsync
+} from '../model/todoSlice';
 interface TodoItemProps {
   task: Todo;
-  updateTask: (id: number, newText: string) => void;
-  deleteTask: (id: number) => void;
-  toggleComplete: (id: number) => void; // изменить сигнатуру
   number: number;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({
-  task,
-  updateTask,
-  deleteTask,
-  number,
-  toggleComplete
-}) => {
+const TodoItem: React.FC<TodoItemProps> = ({ task, number }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const [isEditing, setIsEditing] = useState(false);
   const [taskText, setTaskText] = useState(task.text);
 
+  const deleteTask = (id: number) => {
+    dispatch(deleteTaskAsync(id));
+  };
+  // Обновить задачу
+  const updateTask = (id: number, newText: string) => {
+    dispatch(updateTaskAsync({ id, text: newText }));
+  };
+
+  // Переключить завершенность
+  const toggleCompleteTask = (id: number) => {
+    dispatch(toggleTaskAsync(id));
+  };
   const handleEdit = () => {
     setIsEditing(true);
   };
@@ -35,7 +45,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
   const handleCancel = () => {
     setIsEditing(false);
   };
-
+  const handleDelete = () => deleteTask(task.id);
   return (
     <li className="task">
       <div className="task__content">
@@ -58,7 +68,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             <MyInput
               type="checkbox"
               checked={task.completed}
-              onChange={() => toggleComplete(task.id)}
+              onChange={() => toggleCompleteTask(task.id)}
             />
             <label>Выполнено</label>
           </div>
@@ -67,7 +77,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
               <MyButton className="edit" onClick={handleEdit}>
                 Редактировать
               </MyButton>
-              <MyButton className="delete" onClick={() => deleteTask(task.id)}>
+              <MyButton className="delete" onClick={handleDelete}>
                 Удалить
               </MyButton>
             </>

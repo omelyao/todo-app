@@ -10,9 +10,9 @@ const StyledHeader = styled.header`
 `;
 
 export const Header: React.FC = () => {
+  const navigate = useNavigate();
   const { toggleTheme, theme } = useTheme();
   const buttonText = theme === 'dark' ? 'Light' : 'Dark';
-  const navigate = useNavigate();
   const handleProfileClick = () => {
     navigate('/profile');
   };

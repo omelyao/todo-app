@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserProfile, logoutUser } from '../features/todo/model/authSlice'; // укажи правильный путь
-import { AppDispatch } from '../features/todo/model';
+import { fetchUserProfile, logoutUser } from '../features/auth/model/authSlice';
+import { AppDispatch } from '../store/index';
 import { useNavigate } from 'react-router-dom';
 import { ChangePassword } from '../features/todo/ui/ChangePassword';
 const Container = styled.div`
@@ -54,7 +54,7 @@ const ErrorMessage = styled.p`
   margin-top: 20px;
 `;
 
-const Profile: React.FC = () => {
+const ProfilePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   // Получение данных из Redux
@@ -109,4 +109,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export { Profile };
+export { ProfilePage };

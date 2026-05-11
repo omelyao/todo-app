@@ -1,20 +1,13 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { setFilter, setLimit, setPage } from '../model/tasksSlice';
-import { Filter, SortOrder } from '../model/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter, setLimit, setPage } from '../model/todoSlice';
+import { SortOrder } from '../model/types';
+import { getTasks } from '../model/selectors';
 import { PageLimitSelector } from './PageLimitSelector';
 
-interface SortAndFilterTodoProps {
-  filter: Filter;
-  limit: number;
-}
-
-const SortAndFilterTodo: React.FC<SortAndFilterTodoProps> = ({
-  filter,
-  limit
-}) => {
+const SortAndFilterTodo: React.FC = () => {
   const dispatch = useDispatch();
-
+  const { filter, limit } = useSelector(getTasks);
   const handleStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     dispatch(

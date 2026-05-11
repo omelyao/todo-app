@@ -1,15 +1,16 @@
 import { TodoPage } from '../pages/TodoPage';
-import { Login } from '../pages/Login';
-import { Registration } from '../pages/Registration';
-import { Profile } from '../pages/Profile';
-
+import { LoginPage } from '../pages/LoginPage';
+import { RegistrationPage } from '../pages/RegistrationPage';
+import { ProfilePage } from '../pages/ProfilePage';
+import { NotFoundPage } from '../pages/NotFoundPage';
 export const routes = {
   private: [
     { path: '/', component: <TodoPage /> },
-    { path: '/profile', component: <Profile /> }
+    { path: '/profile', component: <ProfilePage /> }
   ],
   public: [
-    { path: '/login', component: <Login /> },
-    { path: '/register', component: <Registration /> }
+    { path: '/login', component: <LoginPage /> },
+    { path: '/register', component: <RegistrationPage /> },
+    { path: '*', component: <NotFoundPage /> }
   ]
 };

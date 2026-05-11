@@ -5,14 +5,8 @@ import { AddTodo } from '../features/todo/ui/AddTodo';
 import { SortAndFilterTodo } from '../features/todo/ui/SortAndFilterTodo';
 import { Pagination } from '../features/todo/ui/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchAllTasks,
-  fetchTasks,
-  deleteTaskAsync,
-  updateTaskAsync,
-  toggleTaskAsync
-} from '../features/todo/model/tasksSlice';
-import { AppDispatch } from '../features/todo/model/index';
+import { fetchAllTasks, fetchTasks } from '../features/todo/model/todoSlice';
+import { AppDispatch } from '../store/index';
 import { getAllTasks, getTasks } from '../features/todo/model/selectors';
 import styled from 'styled-components';
 
@@ -28,29 +22,16 @@ function TodoPage() {
   const dispatch = useDispatch<AppDispatch>();
   const allTasks = useSelector(getAllTasks);
   const { status, currentPage, limit, filter } = useSelector(getTasks);
-  // Получение полного списка задач при первой загрузке
+
   useEffect(() => {
-    dispatch(fetchAllTasks()); // грузим все задачи
-  }, []);
+    const fetchData = async () => {
+      await dispatch(fetchAllTasks());
+      await dispatch(fetchTasks({ page: currentPage, limit }));
+    };
 
-  // После получения полного списка задач, делать запрос задач по текущей странице
-  useEffect(() => {
-    dispatch(fetchTasks({ page: currentPage, limit }));
-  }, [currentPage, limit, dispatch]);
+    fetchData();
+  }, [dispatch, currentPage, limit]);
 
-  // Удалить задачу
-  const deleteTaskHandler = (id: number) => {
-    dispatch(deleteTaskAsync(id));
-  };
-  // Обновить задачу
-  const updateTaskHandler = (id: number, newText: string) => {
-    dispatch(updateTaskAsync({ id, text: newText }));
-  };
-
-  // Переключить завершенность
-  const toggleCompleteTask = (id: number) => {
-    dispatch(toggleTaskAsync(id));
-  };
   // Мемоизация сортировки и фильтрации по всему списку задач
   const sortedAndFilteredTasks = useMemo(() => {
     let arr = [...allTasks];
@@ -97,7 +78,7 @@ function TodoPage() {
     <StyledApp>
       <Header />
       <section id="center">
-        <SortAndFilterTodo filter={filter} limit={limit} />
+        <SortAndFilterTodo />
         <hr />
         {status === 'loading' ? (
           <p>Загрузка...</p>
@@ -107,9 +88,6 @@ function TodoPage() {
               key={task.id}
               number={(currentPage - 1) * limit + index + 1}
               task={task}
-              toggleComplete={toggleCompleteTask}
-              deleteTask={deleteTaskHandler}
-              updateTask={updateTaskHandler}
             />
           ))
         )}

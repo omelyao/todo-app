@@ -1,7 +1,7 @@
 import { getPagesArray } from '../../../shared/constants/pages';
-import { setPage } from '../model/tasksSlice';
+import { setPage } from '../model/todoSlice';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../model/index';
+import { AppDispatch } from '../../../store/index';
 interface PaginationProps {
   totalPages: number;
   page: number;
@@ -14,7 +14,6 @@ function Pagination({ totalPages, page }: PaginationProps) {
   const handlePageChange = (newPage: number) => {
     dispatch(setPage(newPage));
   };
-  console.log(page, totalPages);
   return (
     <div>
       {pages.map(p => (

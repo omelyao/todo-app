@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { routes } from './routes/index';
 import { useSelector } from 'react-redux';
-import { RootState } from './features/todo/model/index';
+import { RootState } from './store/index';
 import { NotFoundPage } from './pages/NotFoundPage';
 export const App: React.FC = () => {
   const isAuthenticated = Boolean(

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
-import { store } from './features/todo/model/index';
+import { store } from './store/index';
 import { MyThemeProvider } from './entities/providers/MyThemeProvider';
 const rootElement = document.getElementById('root')!;
 const root = ReactDOM.createRoot(rootElement);

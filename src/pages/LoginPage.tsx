@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch } from '../features/todo/model/index';
-import { loginUser } from '../features/todo/model/authSlice';
-import { Header } from '../shared/UI/Header';
+import { AppDispatch } from '../store/index';
+import { loginUser } from '../features/auth/model/authSlice';
 const LoginContainer = styled.div`
   max-width: 400px;
   margin: 100px auto;
@@ -61,8 +60,9 @@ const ErrorMessage = styled.p`
   text-align: center;
 `;
 
-const Login: React.FC = () => {
+const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -81,7 +81,6 @@ const Login: React.FC = () => {
       setLoading(false);
     }
   };
-  const navigate = useNavigate();
   const handleRegistration = () => {
     navigate('/register');
   };
@@ -125,4 +124,4 @@ const Login: React.FC = () => {
   );
 };
 
-export { Login };
+export { LoginPage };

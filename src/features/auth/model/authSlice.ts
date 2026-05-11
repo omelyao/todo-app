@@ -6,37 +6,8 @@ import {
   changePassword,
   refreshTokenApi
 } from './authApi';
-import axios from 'axios';
-// Типы
-interface User {
-  id: number;
-  email: string;
-  age?: number;
-  createdAt?: string;
-}
-
-interface AuthState {
-  user: User | null;
-  token: string | null;
-  status: 'idle' | 'loading' | 'failed';
-  error: string | null;
-}
-
-const initialState: AuthState = {
-  user: null,
-  token: localStorage.getItem('accessToken'),
-  status: 'idle',
-  error: null
-};
-
-// Вспомогательная функция для установки токена
-const setAuthHeader = (token: string | null) => {
-  if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  } else {
-    delete axios.defaults.headers.common['Authorization'];
-  }
-};
+import { initialState } from './authconctants';
+import { setAuthHeader } from '../../../shared/lib/helpers';
 
 // Инициализация заголовка при загрузке
 if (initialState.token) {
@@ -46,10 +17,15 @@ if (initialState.token) {
 // Асинхронные thunk-ы, использующие API функции
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
-  async (
-    { email, password, age }: { email: string; password: string; age?: number },
-    thunkAPI
-  ) => {
+  async ({
+    email,
+    password,
+    age
+  }: {
+    email: string;
+    password: string;
+    age?: number;
+  }) => {
     const data = await register(email, password, age);
     const { accessToken, refreshToken } = data;
     localStorage.setItem('accessToken', accessToken);
@@ -61,10 +37,7 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async (
-    { email, password }: { email: string; password: string },
-    thunkAPI
-  ) => {
+  async ({ email, password }: { email: string; password: string }) => {
     const data = await login(email, password);
     const { accessToken, refreshToken } = data;
     localStorage.setItem('accessToken', accessToken);
@@ -76,7 +49,7 @@ export const loginUser = createAsyncThunk(
 
 export const fetchUserProfile = createAsyncThunk(
   'auth/fetchUserProfile',
-  async (_, thunkAPI) => {
+  async _ => {
     const userData = await getProfile();
     return userData;
   }
@@ -84,10 +57,13 @@ export const fetchUserProfile = createAsyncThunk(
 
 export const changePasswordThunk = createAsyncThunk(
   'auth/changePassword',
-  async (
-    { oldPassword, newPassword }: { oldPassword: string; newPassword: string },
-    thunkAPI
-  ) => {
+  async ({
+    oldPassword,
+    newPassword
+  }: {
+    oldPassword: string;
+    newPassword: string;
+  }) => {
     await changePassword(oldPassword, newPassword);
     return;
   }
@@ -95,7 +71,7 @@ export const changePasswordThunk = createAsyncThunk(
 
 export const refreshTokenThunk = createAsyncThunk(
   'auth/refreshToken',
-  async (_, thunkAPI) => {
+  async _ => {
     const data = await refreshTokenApi();
     const { accessToken, refreshToken } = data;
     localStorage.setItem('accessToken', accessToken);
