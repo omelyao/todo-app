@@ -1,3 +1,3 @@
-import { RootState } from '../../../store/index';
-export const getAllTasks = (state: RootState) => state.tasks.list ?? [];
-export const getTasks = (state: RootState) => state.tasks;
+import { State } from '../../../store/index';
+export const getAllTasks = (state: State) => state.tasks.list ?? [];
+export const getTasks = (state: State) => state.tasks;

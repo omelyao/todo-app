@@ -17,8 +17,8 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ task, number }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const [isEditing, setIsEditing] = useState(false);
-  const [taskText, setTaskText] = useState(task.text);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [taskText, setTaskText] = useState<string>(task.text);
 
   const deleteTask = (id: number) => {
     dispatch(deleteTaskAsync(id));

@@ -1,7 +1,7 @@
-import { getPagesArray } from '../../../shared/constants/pages';
-import { setPage } from '../model/todoSlice';
+import { getPagesArray } from '../constants/pages';
+import { setPage } from '../../features/todo/model/todoSlice';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../../store/index';
+import { AppDispatch } from '../../store/index';
 interface PaginationProps {
   totalPages: number;
   page: number;

@@ -2,11 +2,11 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { routes } from './routes/index';
 import { useSelector } from 'react-redux';
-import { RootState } from './store/index';
-import { NotFoundPage } from './pages/NotFoundPage';
+import { State } from './store/index';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 export const App: React.FC = () => {
   const isAuthenticated = Boolean(
-    useSelector((state: RootState) => state.auth.token)
+    useSelector((state: State) => state.auth.token)
   );
 
   return (
@@ -17,7 +17,11 @@ export const App: React.FC = () => {
           key={route.path}
           path={route.path}
           element={
-            isAuthenticated ? route.component : <Navigate to="/login" replace />
+            isAuthenticated ? (
+              <route.component />
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
       ))}
@@ -28,7 +32,7 @@ export const App: React.FC = () => {
           key={route.path}
           path={route.path}
           element={
-            !isAuthenticated ? route.component : <Navigate to="/" replace />
+            !isAuthenticated ? <route.component /> : <Navigate to="/" replace />
           }
         />
       ))}

@@ -1,72 +1,26 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import {
+  LoginContainer,
+  LoginTitle,
+  LoginForm,
+  LoginLabel,
+  LoginInput,
+  LoginButton,
+  RegisterBlock,
+  ErrorMessage
+} from './LoginPageStyles';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch } from '../store/index';
-import { loginUser } from '../features/auth/model/authSlice';
-const LoginContainer = styled.div`
-  max-width: 400px;
-  margin: 100px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  color: black;
-`;
-
-const LoginTitle = styled.h2`
-  text-align: center;
-  margin-bottom: 20px;
-`;
-
-const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const LoginLabel = styled.label`
-  margin-bottom: 8px;
-  font-weight: 600;
-`;
-
-const LoginInput = styled.input`
-  padding: 8px 12px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const LoginButton = styled.button`
-  padding: 10px;
-  background-color: #034286;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-
-  &:hover {
-    background-color: #0263ca;
-  }
-`;
-const RegisterBlock = styled.div`
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const ErrorMessage = styled.p`
-  color: red;
-  text-align: center;
-`;
+import { AppDispatch } from '../../store/index';
+import { loginUser } from '../../features/auth/model/authSlice';
 
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

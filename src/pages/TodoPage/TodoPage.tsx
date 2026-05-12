@@ -1,13 +1,13 @@
 import { useEffect, useMemo } from 'react';
-import { Header } from '../shared/UI/Header';
-import { TodoItem } from '../features/todo/ui/TodoItem';
-import { AddTodo } from '../features/todo/ui/AddTodo';
-import { SortAndFilterTodo } from '../features/todo/ui/SortAndFilterTodo';
-import { Pagination } from '../features/todo/ui/Pagination';
+import { Header } from '../../shared/UI/Header';
+import { TodoItem } from '../../features/todo/ui/TodoItem';
+import { AddTodo } from '../../features/todo/ui/AddTodo';
+import { SortAndFilterTodo } from '../../features/todo/ui/SortAndFilterTodo';
+import { Pagination } from '../../shared/UI/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllTasks, fetchTasks } from '../features/todo/model/todoSlice';
-import { AppDispatch } from '../store/index';
-import { getAllTasks, getTasks } from '../features/todo/model/selectors';
+import { fetchAllTasks, fetchTasks } from '../../features/todo/model/todoSlice';
+import { AppDispatch } from '../../store/index';
+import { getAllTasks, getTasks } from '../../features/todo/model/selectors';
 import styled from 'styled-components';
 
 const StyledApp = styled.div`

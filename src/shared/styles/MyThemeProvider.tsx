@@ -1,8 +1,8 @@
 import React, { ReactNode, useState } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../../features/todo/model/constants';
-import { ThemeContext } from '../helpers/themeContext';
-import { GlobalStyle } from '../helpers/GlobalStyles';
+import { ThemeContext } from './themeContext';
+import { GlobalStyle } from './GlobalStyles';
 
 interface MyThemeProviderProps {
   children?: ReactNode; // не обязательно, если внутри добавляем конкретный контент

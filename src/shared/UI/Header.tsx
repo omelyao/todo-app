@@ -1,4 +1,4 @@
-import { useTheme } from '../../entities/helpers/themeContext';
+import { useTheme } from '../../shared/styles/themeContext';
 import { MyButton } from './MyButton';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
