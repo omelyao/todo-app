@@ -2,12 +2,10 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { routes } from './routes/index';
 import { useSelector } from 'react-redux';
-import { State } from './store/index';
+import { selectIsAuthenticated } from './features/auth/model/authSelectors';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 export const App: React.FC = () => {
-  const isAuthenticated = Boolean(
-    useSelector((state: State) => state.auth.token)
-  );
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   return (
     <Routes>

@@ -24,9 +24,9 @@ function TodoPage() {
   const { status, currentPage, limit, filter } = useSelector(getTasks);
 
   useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(fetchAllTasks());
-      await dispatch(fetchTasks({ page: currentPage, limit }));
+    const fetchData = () => {
+      dispatch(fetchAllTasks());
+      dispatch(fetchTasks({ page: currentPage, limit }));
     };
 
     fetchData();

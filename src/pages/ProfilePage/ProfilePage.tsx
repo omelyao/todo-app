@@ -15,15 +15,19 @@ import {
 } from '../../features/auth/model/authSlice';
 import { AppDispatch } from '../../store/index';
 import { useNavigate } from 'react-router-dom';
-import { ChangePassword } from '../../features/todo/ui/ChangePassword';
-
+import { ChangePassword } from '../../features/auth/ui/ChangePassword';
+import {
+  selectAuthError,
+  selectAuthStatus,
+  selectAuthUser
+} from '../../features/auth/model/authSelectors';
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   // Получение данных из Redux
-  const user = useSelector((state: any) => state.auth.user);
-  const status = useSelector((state: any) => state.auth.status);
-  const error = useSelector((state: any) => state.auth.error);
+  const user = useSelector(selectAuthUser);
+  const status = useSelector(selectAuthStatus);
+  const error = useSelector(selectAuthError);
   // Загружаем профиль при монтировании
   useEffect(() => {
     dispatch(fetchUserProfile());
@@ -63,7 +67,11 @@ const ProfilePage: React.FC = () => {
       </ProfileInfoItem>
       <ProfileInfoItem>
         <ProfileLabel>Дата регистрации:</ProfileLabel>
-        <ProfileValue>{new Date(user.createdAt).toLocaleString()}</ProfileValue>
+        <ProfileValue>
+          {user.createdAt
+            ? new Date(user.createdAt).toLocaleString()
+            : 'Не указано'}
+        </ProfileValue>
       </ProfileInfoItem>
       <ChangePassword />
       <ProfileButton onClick={handleLogout}>Выйти из аккаунта</ProfileButton>

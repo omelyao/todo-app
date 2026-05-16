@@ -7,7 +7,7 @@ import {
   refreshTokenApi
 } from './authApi';
 import { initialState } from './authconctants';
-import { setAuthHeader } from '../../../shared/lib/helpers';
+import { setAuthHeader } from '../../../shared/lib/helpers/setAuthHeader';
 
 // Инициализация заголовка при загрузке
 if (initialState.token) {

@@ -11,7 +11,11 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../features/auth/model/authSlice';
 import { AppDispatch } from '../../store/index';
-
+import {
+  selectAuthError,
+  selectAuthStatus,
+  selectSuccessMsg
+} from '../../features/auth/model/authSelectors';
 const RegistrationPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -20,11 +24,9 @@ const RegistrationPage: React.FC = () => {
   const [age, setAge] = useState<string | undefined>(undefined);
 
   // Получаем статус и ошибку из Redux
-  const status = useSelector((state: any) => state.auth.status);
-  const error = useSelector((state: any) => state.auth.error);
-  const successMsg = useSelector((state: any) =>
-    state.auth.user ? 'Успешно зарегистрировано!' : null
-  ); // или можно управлять локально
+  const status = useSelector(selectAuthStatus);
+  const error = useSelector(selectAuthError);
+  const successMsg = useSelector(selectSuccessMsg); // или можно управлять локально
 
   const handleRegister = () => {
     // вызываем thunk

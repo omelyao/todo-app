@@ -2,8 +2,15 @@
   {
     "id": 1778250403438,
     "email": "ryt9992@mail.ru",
-    "password": "$2b$10$PxU.KtyG/VgFiPdBESl0UeNvFkalMbjLpP4klCIRsoDpYp8NG3J5O",
+    "password": "$2b$10$zk1dVUI1NG3dX.3VsWJX6e2iqrbH47tcDaxM6a36yMG9bbcnaKwXS",
     "age": 25,
     "createdAt": "2026-05-08T14:26:43.438Z"
+  },
+  {
+    "id": 1778912650550,
+    "email": "kolik@mail.ru",
+    "password": "$2b$10$2Gjd/DDTrs37225p8XmrMOEwwLvdd3jMcTuPLqhsUXEiuyNw.V0wm",
+    "age": 22,
+    "createdAt": "2026-05-16T06:24:10.550Z"
   }
 ]
